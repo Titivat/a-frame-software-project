@@ -2,6 +2,7 @@
 	<head>
 		<title>Cyber physical</title>
 		<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+		<script src="https://unpkg.com/@editvr/aframe-dialog-popup-component@1.7.2/dist/aframe-dialog-popup-component.min.js"></script>
 	</head>
 	<body>
 		<a-scene>
@@ -11,6 +12,16 @@
 
 			<script id="environment" src="./component/environment.js"></script>
 
+			<!-- under dev -->
+			<a-entity dialog-popup="title: My Title; body: My Body"></a-entity>
+			<a-box id="cube" color="yellow" depth="2" height="4" width="0.5"></a-box>
+			<script>
+				document.querySelector("#cube").addEventListener("click", function () {
+					this.setAttribute("material", "color", "red");
+					console.log("I was clicked!");
+				});
+			</script>
+			<!-- under dev -->
 		</a-scene>
 	</body>
 </html>
