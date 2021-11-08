@@ -6,6 +6,9 @@
 	</head>
 	<body>
 		<a-scene>
+			<script>
+				const scene = document.querySelector("a-scene");
+			</script>
 			<a-assets id="assets">
 				<script type="text/javascript" src="./Assets/index.js"></script>
 			</a-assets>
@@ -13,15 +16,17 @@
 			<script id="environment" src="./component/environment.js"></script>
 
 			<!-- under dev -->
-			<a-entity dialog-popup="title: My Title; body: My Body"></a-entity>
-			<a-box id="cube" color="yellow" depth="2" height="4" width="0.5"></a-box>
-			<script>
-				document.querySelector("#cube").addEventListener("click", function () {
-					this.setAttribute("material", "color", "red");
-					console.log("I was clicked!");
-				});
-			</script>
+			<script id="menu" src="./component/menu.js"></script>
+
+			<!-- <a-box id="cube" color="yellow" depth="2" height="4" width="0.5"></a-box> -->
 			<!-- under dev -->
 		</a-scene>
 	</body>
 </html>
+
+<!-- <script>
+	document.querySelector("#cube").addEventListener("click", function () {
+		this.setAttribute("material", "color", "red");
+		console.log("I was clicked!");
+	});
+</script> -->

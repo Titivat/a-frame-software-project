@@ -1,5 +1,3 @@
-const scene = document.querySelector("a-scene");
-
 // ground
 const floor = document.createElement("a-plane");
 floor.setAttribute("normal-map", "#ground");
