@@ -1,3 +1,5 @@
+import CAM from "../constant/cameraIdConst.js";
+
 // ground
 const floor = document.createElement("a-plane");
 floor.setAttribute("normal-map", "#ground");
@@ -14,17 +16,17 @@ upperPart.setAttribute("rotation", "0 64 0");
 
 // camera
 const camRig = document.createElement("a-entity");
-camRig.setAttribute("id", "rig");
+camRig.setAttribute("id", CAM.OUTSIDE_CIRCLE);
 
 const insideCamRig = document.createElement("a-entity");
-insideCamRig.setAttribute("id", "camera");
+insideCamRig.setAttribute("id", CAM.MIDDLE_CIRCLE);
 insideCamRig.setAttribute("look-controls", "");
 insideCamRig.setAttribute("wasd-controls", "");
 insideCamRig.setAttribute("camera", "true");
 insideCamRig.setAttribute("position", "0 2 0");
 
 const cursor = document.createElement("a-cursor");
-cursor.setAttribute("id", "cursor");
+cursor.setAttribute("id", CAM.CURSOR);
 
 insideCamRig.appendChild(cursor);
 camRig.appendChild(insideCamRig);

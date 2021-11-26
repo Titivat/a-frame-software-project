@@ -1,3 +1,4 @@
+import getCamPos from "../Tool/getCameraPosition.js";
 let isMenuOpen = false;
 
 window.addEventListener("keydown", function (e) {
@@ -10,6 +11,7 @@ window.addEventListener("keydown", function (e) {
 
 const popUpMenu = (isMenuOpen) => {
 	const MENU_ID = "popup-menu";
+	getCamPos();
 	if (isMenuOpen) {
 		const menu = document.createElement("a-box");
 		menu.setAttribute("id", MENU_ID);
