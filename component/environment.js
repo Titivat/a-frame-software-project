@@ -23,7 +23,7 @@ insideCamRig.setAttribute("id", CAM.MIDDLE_CIRCLE);
 insideCamRig.setAttribute("look-controls", "");
 insideCamRig.setAttribute("wasd-controls", "");
 insideCamRig.setAttribute("camera", "true");
-insideCamRig.setAttribute("position", "0 2 0");
+insideCamRig.setAttribute("position", "0 1.7 0");
 
 const cursor = document.createElement("a-cursor");
 cursor.setAttribute("id", CAM.CURSOR);
