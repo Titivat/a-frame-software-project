@@ -51,6 +51,16 @@ const createMenu = (name) => {
 	return menu;
 };
 
+const addClickAbleToMenuItems = () => {
+	for (let index = 0; index < itemList.length; index++) {
+		document
+			.querySelector(`#a-plane-${index.toString()}`)
+			.addEventListener("click", function () {
+				console.log(`I was clicked!!! ${index.toString()}`);
+			});
+	}
+};
+
 const popUpMenu = (isMenuOpen) => {
 	const menuName = MENU_VAL.id;
 	if (isMenuOpen) {
@@ -58,6 +68,11 @@ const popUpMenu = (isMenuOpen) => {
 		const menu = createMenu(menuName);
 		menu.setAttribute("position", `${xPos} ${yPos} ${zPos - 4}`);
 		scene.appendChild(menu);
+		addClickAbleToMenuItems();
+		// document.querySelector("#a-plane-0").addEventListener("click", function () {
+		// 	// this.setAttribute("material", "color", "red");
+		// 	console.log("I was clicked!");
+		// });
 	} else if (!isMenuOpen) {
 		//MENU_VAL.id
 		const removeMenu = document.getElementById(menuName);
