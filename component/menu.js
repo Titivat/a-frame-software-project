@@ -2,7 +2,17 @@ import CAM_VAL from "../constant/cameraIdConst.js";
 import MENU_VAL from "../constant/menu.js";
 import getElementPos from "../Tool/getElementPosition.js";
 let isMenuOpen = false;
-const itemList = ["a-box", "a-box", "a-box", "a-box", "a-box", "a-box", "a-box", "a-box", "a-box"];
+const itemList = [
+	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+];
 
 window.addEventListener("keydown", function (e) {
 	if (e.key === "Escape" || e.key === "Esc") {
@@ -20,28 +30,24 @@ const createMenu = (name) => {
 	menu.setAttribute("height", "5");
 	menu.setAttribute("width", "5");
 
-	let spacing_row = -2
-	// 2
-	let spacing_col = 2
-	itemList.forEach((item, index) => {
-		if( index % 3 === 0 && index !== 0){
-			console.log(`index: ${index}`)
-			spacing_row = -2
-			spacing_col -= 1.5
+	let spacing_row = -2;
+	let spacing_col = 2;
+	for (let index = 0; index < itemList.length; index++) {
+		if (index % 3 === 0 && index !== 0) {
+			spacing_row = -2;
+			spacing_col -= 1.5;
 		}
 
-		const select_item = document.createElement(item);
-		select_item.setAttribute("id", `${item}-${index.toString()}`);
-		select_item.setAttribute("color", "red");
-		select_item.setAttribute("depth", "0.5");
+		const select_item = document.createElement("a-plane");
+		select_item.setAttribute("id", `a-plane-${index.toString()}`);
+		select_item.setAttribute("src", itemList[index]);
 		select_item.setAttribute("height", "1");
 		select_item.setAttribute("width", "1");
 		select_item.setAttribute("position", `${spacing_row} ${spacing_col} 0.14`);
 
-		spacing_row += 2
-
+		spacing_row += 2;
 		menu.appendChild(select_item);
-	});
+	}
 	return menu;
 };
 

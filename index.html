@@ -13,20 +13,31 @@
 				<script type="module" src="./Assets/index.js"></script>
 			</a-assets>
 
-			<script type="module" id="environment" src="./component/environment.js"></script>
+			<!-- camera, screen, ground -->
+			<script
+				type="module"
+				id="environment"
+				src="./component/environment.js"
+			></script>
 
 			<!-- under dev -->
 			<script type="module" id="menu" src="./component/menu.js"></script>
-
-			<!-- <a-box id="cube" color="yellow" depth="2" height="4" width="0.5"></a-box> -->
+			<!-- <a-entity
+				id="image"
+				layer="src: #page1; height: 3; width: 1.9505"
+			></a-entity> -->
+			<!-- <a-entity layer="src: #page5; height: 3; width: 1.9505"></a-entity> -->
 			<!-- under dev -->
 		</a-scene>
 	</body>
 </html>
 
+<!-- for adding function -->
+
+<!-- <a-box id="cube" color="yellow" depth="2" height="4" width="0.5"></a-box> -->
 <!-- <script>
-	document.querySelector("#cube").addEventListener("click", function () {
-		this.setAttribute("material", "color", "red");
-		console.log("I was clicked!");
-	});
-</script> -->
+		document.querySelector("#image").addEventListener("click", function () {
+			this.setAttribute("material", "color", "red");
+			console.log("I was clicked!");
+		});
+	</script> -->
