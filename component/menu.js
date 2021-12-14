@@ -22,7 +22,23 @@ window.addEventListener("keydown", function (e) {
 	}
 });
 
+const popUpMenu = (isMenuOpen) => {
+	const menuName = MENU_VAL.id;
+	if (isMenuOpen) {
+		const { xPos, yPos, zPos } = getElementPos(CAM_VAL.MIDDLE_CIRCLE);
+		const menu = createMenu(menuName);
+		menu.setAttribute("position", `${xPos} ${yPos} ${zPos - 4}`);
+		scene.appendChild(menu);
+		// addClickAbleToMenuItems();
+	} else if (!isMenuOpen) {
+		//MENU_VAL.id
+		const removeMenu = document.getElementById(menuName);
+		removeMenu.parentNode.removeChild(removeMenu);
+	}
+};
+
 const createMenu = (name) => {
+	const { xPos, yPos, zPos } = getElementPos(CAM_VAL.MIDDLE_CIRCLE);
 	const menu = document.createElement("a-plane");
 	menu.setAttribute("id", name);
 	menu.setAttribute("color", "yellow");
@@ -45,39 +61,46 @@ const createMenu = (name) => {
 		select_item.setAttribute("width", "1");
 		select_item.setAttribute("position", `${spacing_row} ${spacing_col} 0.14`);
 
+		select_item.addEventListener("click", function () {
+			// display object
+			// const createObject = createItemObject(
+			// 	`create-object-${index.toString()}`,
+			// 	`https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf`
+			// );
+			const createObject = createBox(
+				`create-object-${index.toString()}`,
+				"a-cylinder"
+			);
+			createObject.addEventListener("click", function () {
+				// todo be able to drag
+				console.log("hello world");
+			});
+			createObject.setAttribute("position", `${xPos} 0 ${zPos - 2}`);
+			scene.appendChild(createObject);
+		});
 		spacing_row += 2;
 		menu.appendChild(select_item);
 	}
 	return menu;
 };
 
-const addClickAbleToMenuItems = () => {
-	for (let index = 0; index < itemList.length; index++) {
-		document
-			.querySelector(`#a-plane-${index.toString()}`)
-			.addEventListener("click", function () {
-				console.log(`I was clicked!!! ${index.toString()}`);
-			});
-	}
+const createItemObject = (id, modelLink) => {
+	const createObject = document.createElement("a-entity");
+	createObject.setAttribute("id", id);
+	createObject.setAttribute("gltf-model", modelLink);
+	createObject.setAttribute("response-type", `arraybuffer`);
+	createObject.setAttribute("crossorigin", `anonymous`);
+	return createObject;
 };
 
-const popUpMenu = (isMenuOpen) => {
-	const menuName = MENU_VAL.id;
-	if (isMenuOpen) {
-		const { xPos, yPos, zPos } = getElementPos(CAM_VAL.MIDDLE_CIRCLE);
-		const menu = createMenu(menuName);
-		menu.setAttribute("position", `${xPos} ${yPos} ${zPos - 4}`);
-		scene.appendChild(menu);
-		addClickAbleToMenuItems();
-		// document.querySelector("#a-plane-0").addEventListener("click", function () {
-		// 	// this.setAttribute("material", "color", "red");
-		// 	console.log("I was clicked!");
-		// });
-	} else if (!isMenuOpen) {
-		//MENU_VAL.id
-		const removeMenu = document.getElementById(menuName);
-		removeMenu.parentNode.removeChild(removeMenu);
-	}
+// option
+const createBox = (id, shape) => {
+	const createObject = document.createElement(shape);
+	createObject.setAttribute("id", id);
+	createObject.setAttribute("height", `1`);
+	createObject.setAttribute("width", `1`);
+	createObject.setAttribute("color", `tomato`);
+	return createObject;
 };
 
 const stickPopup = (isMenuOpen) => {
