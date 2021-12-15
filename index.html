@@ -2,15 +2,44 @@
 	<head>
 		<title>Cyber physical</title>
 		<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+		<script src="https://unpkg.com/@editvr/aframe-dialog-popup-component@1.7.2/dist/aframe-dialog-popup-component.min.js"></script>
 	</head>
 	<body>
 		<a-scene>
+			<script>
+				const scene = document.querySelector("a-scene");
+			</script>
 			<a-assets id="assets">
-				<script type="text/javascript" src="./Assets/index.js"></script>
+				<script type="module" src="./Assets/index.js"></script>
+				<!-- <a-asset-item id="cityModel" src="https://cdn.aframe.io/test-models/models/glTF-2.0/virtualcity/VC.gltf"></a-asset-item> -->
 			</a-assets>
 
-			<script id="environment" src="./component/environment.js"></script>
+			<!-- camera, screen, ground -->
+			<script
+				type="module"
+				id="environment"
+				src="./component/environment.js"
+			></script>
 
+			<!-- under dev -->
+			<script type="module" id="menu" src="./component/menu.js"></script>
+			<!-- <a-entity gltf-model="#cityModel" play-all-model-animations modify-materials></a-entity> -->
+			<!-- <a-entity
+				id="image"
+				layer="src: #page1; height: 3; width: 1.9505"
+			></a-entity> -->
+			<!-- <a-entity layer="src: #page5; height: 3; width: 1.9505"></a-entity> -->
+			<!-- under dev -->
 		</a-scene>
 	</body>
 </html>
+
+<!-- for adding function -->
+
+<!-- <a-box id="cube" color="yellow" depth="2" height="4" width="0.5"></a-box> -->
+<!-- <script>
+		document.querySelector("#image").addEventListener("click", function () {
+			this.setAttribute("material", "color", "red");
+			console.log("I was clicked!");
+		});
+	</script> -->
