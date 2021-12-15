@@ -62,15 +62,14 @@ const createMenu = (name) => {
 		select_item.setAttribute("position", `${spacing_row} ${spacing_col} 0.14`);
 
 		select_item.addEventListener("click", function () {
-			// display object
-			// const createObject = createItemObject(
-			// 	`create-object-${index.toString()}`,
-			// 	`https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf`
-			// );
-			const createObject = createBox(
+			const createObject = createItemObject(
 				`create-object-${index.toString()}`,
-				"a-cylinder"
+				`https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf`
 			);
+			// const createObject = createBox(
+			// 	`create-object-${index.toString()}`,
+			// 	"a-cylinder"
+			// );
 			createObject.addEventListener("click", function () {
 				// todo be able to drag
 				console.log("hello world");

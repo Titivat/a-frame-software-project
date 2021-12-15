@@ -19,5 +19,8 @@
   "homepage": "https://github.com/Titivat/a-frame-software-project#readme",
   "devDependencies": {
     "webpack": "^5.62.1"
+  },
+  "dependencies": {
+    "aframe-click-drag-component": "^3.0.1"
   }
 }
