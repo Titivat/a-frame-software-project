@@ -1,7 +1,13 @@
 <html>
 	<head>
 		<title>Cyber physical</title>
+		<script
+			src="https://cdn.jsdelivr.net/npm/aframe@0.9.2/dist/aframe-master.min.js"
+			integrity="sha256-2bFCSEsTdg8TetE5ESwp5iYsveMPynOzQEydvhjVl7g="
+			crossorigin="anonymous"
+		></script>
 		<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+		<script type="module" src="./action/dragAndDrop.js"></script>
 		<script src="https://unpkg.com/@editvr/aframe-dialog-popup-component@1.7.2/dist/aframe-dialog-popup-component.min.js"></script>
 		<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.2/dist/aframe-extras.min.js"></script>
 		<script src="https://unpkg.com/super-hands@^3.0.1/dist/super-hands.min.js"></script>
@@ -15,16 +21,6 @@
 				<script type="module" src="./Assets/index.js"></script>
 				<!-- <a-asset-item id="cityModel" src="https://cdn.aframe.io/test-models/models/glTF-2.0/virtualcity/VC.gltf"></a-asset-item> -->
 			</a-assets>
-			<a-entity
-				sphere-collider="objects: a-box"
-				super-hands
-				hand-controls="hand: left"
-			></a-entity>
-			<a-entity
-				sphere-collider="objects: a-box"
-				super-hands
-				hand-controls="hand: right"
-			></a-entity>
 			<!-- camera, screen, ground -->
 			<script
 				type="module"
@@ -34,26 +30,13 @@
 
 			<!-- under dev -->
 			<script type="module" id="menu" src="./component/menu.js"></script>
-			<!-- <a-sphere
-				hoverable=""
-				grabbable=""
-				stretchable=""
-				draggable=""
-				dropppable=""
-				position="0 2	-4"
-			> -->
-				<!-- <a-box
-					position="0 0 1	"
-					hoverable=""
-					grabbable=""
-					stretchable=""
-					draggable=""
-					dropppable=""
+			<!-- <a-box
+					dragndrop
+					position="-1 0.5 -3"
+					rotation="0 45 0"
+					color="#4CC3D9"
 					change-color-on-hover="color: red"
-					color="blue"
-					position="0 2.5 -6"
 				></a-box> -->
-			</a-sphere>
 		</a-scene>
 	</body>
 </html>

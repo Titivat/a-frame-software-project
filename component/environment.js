@@ -40,7 +40,7 @@ insideCamRig.setAttribute("position", "0 1.7 0");
 const cursor = document.createElement("a-cursor");
 cursor.setAttribute("id", CAM.CURSOR);
 
-insideCamRig.appendChild(cursor);
+// insideCamRig.appendChild(cursor);
 camRig.appendChild(insideCamRig);
 
 // add to screen

@@ -1,0 +1,111 @@
+<html>
+	<head>
+		<title>Cyber physical</title>
+		<script type="text/javascript" src="/dragAndDrop.b1a60345.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/aframe@0.9.2/dist/aframe-master.min.js" integrity="sha256-2bFCSEsTdg8TetE5ESwp5iYsveMPynOzQEydvhjVl7g=" crossorigin="anonymous"></script>
+		<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+		<script src="https://unpkg.com/@editvr/aframe-dialog-popup-component@1.7.2/dist/aframe-dialog-popup-component.min.js"></script>
+		<script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.2/dist/aframe-extras.min.js"></script>
+		<script src="https://unpkg.com/super-hands@^3.0.1/dist/super-hands.min.js"></script>
+	</head>
+	<script>AFRAME.registerSystem("track-cursor", {
+  init: function init() {
+    this.el.setAttribute("cursor", {
+      rayOrigin: "mouse"
+    });
+  }
+});
+AFRAME.registerComponent("track-cursor", {
+  init: function init() {
+    var _this = this;
+
+    this.el.addEventListener("mousedown", function (e) {
+      if (_this.el.is("cursor-hovered")) {
+        _this.el.sceneEl.camera.el.setAttribute("look-controls", {
+          enabled: false
+        });
+
+        _this.el.addState("dragging");
+      }
+    });
+    this.el.addEventListener("click", function (e) {
+      if (_this.el.is("dragging")) {
+        _this.el.sceneEl.camera.el.setAttribute("look-controls", {
+          enabled: true
+        });
+
+        _this.el.removeState("dragging");
+      }
+    });
+  }
+});
+AFRAME.registerComponent("dragndrop", {
+  dependencies: ["track-cursor"],
+  init: function init() {
+    var _this2 = this;
+
+    this.range = 0;
+    this.dist = 0;
+    this.el.addEventListener("stateadded", function (e) {
+      if (e.detail == "dragging") {
+        _this2.range = 0;
+        _this2.dist = _this2.el.object3D.position.clone().sub(_this2.el.sceneEl.camera.el.object3D.position).length();
+      }
+    });
+    this.direction = new AFRAME.THREE.Vector3();
+    this.target = new AFRAME.THREE.Vector3();
+    document.addEventListener("wheel", function (e) {
+      if (e.deltaY < 0) {
+        _this2.range += 0.1;
+      } else {
+        _this2.range -= 0.1;
+      }
+    });
+  },
+  updateDirection: function updateDirection() {
+    this.direction.copy(this.el.sceneEl.getAttribute("raycaster").direction);
+  },
+  updateTarget: function updateTarget() {
+    var camera = this.el.sceneEl.camera.el;
+    this.target.copy(camera.object3D.position.clone().add(this.direction.clone().multiplyScalar(this.dist + this.range)));
+  },
+  tick: function tick() {
+    if (this.el.is("dragging")) {
+      this.updateDirection();
+      this.updateTarget();
+      this.el.object3D.position.copy(this.target);
+    }
+  }
+});</script>
+	<body>
+		<a-scene>
+			<script>var scene = document.querySelector("a-scene");</script>
+			<a-assets id="assets">
+				<script type="module" src="/Assets.347a8a09.js"></script>
+				<!-- <a-asset-item id="cityModel" src="https://cdn.aframe.io/test-models/models/glTF-2.0/virtualcity/VC.gltf"></a-asset-item> -->
+			</a-assets>
+			<!-- camera, screen, ground -->
+			<script type="module" id="environment" src="/environment.db3ba2f4.js"></script>
+
+			<!-- under dev -->
+			<script type="module" id="menu" src="/menu.094279f7.js"></script>
+				<!-- <a-box
+					dragndrop
+					position="-1 0.5 -3"
+					rotation="0 45 0"
+					color="#4CC3D9"
+					change-color-on-hover="color: red"
+				></a-box> -->
+		</a-scene>
+	</body>
+</html>
+
+<!-- for adding function -->
+
+<!-- <a-box id="cube" color="yellow" depth="2" height="4" width="0.5"></a-box> -->
+<!-- <script>
+		document.querySelector("#image").addEventListener("click", function () {
+			this.setAttribute("material", "color", "red");
+			console.log("I was clicked!");
+		});
+	</script> -->

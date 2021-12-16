@@ -1,26 +1,27 @@
 {
-  "name": "a-frame-software-project",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --config webpack.config.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Titivat/a-frame-software-project.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Titivat/a-frame-software-project/issues"
-  },
-  "homepage": "https://github.com/Titivat/a-frame-software-project#readme",
-  "devDependencies": {
-    "webpack": "^5.62.1"
-  },
-  "dependencies": {
-    "aframe-click-drag-component": "^3.0.1"
-  }
+	"name": "a-frame-software-project",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "parcel index.html",
+		"build": "parcel build action/dragAndDrop.js --no-source-maps"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Titivat/a-frame-software-project.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Titivat/a-frame-software-project/issues"
+	},
+	"homepage": "https://github.com/Titivat/a-frame-software-project#readme",
+	"devDependencies": {
+		"webpack": "^5.62.1"
+	},
+	"dependencies": {
+		"aframe-click-drag-component": "^3.0.1"
+	}
 }

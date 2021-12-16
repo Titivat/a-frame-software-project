@@ -123,6 +123,7 @@ const createItemObject = (id, modelLink) => {
 const createBox = (id, shape) => {
 	const createObject = document.createElement(shape);
 	createObject.setAttribute("id", id);
+	createObject.setAttribute("dragndrop", "");
 	createObject.setAttribute("height", `1`);
 	createObject.setAttribute("width", `1`);
 	createObject.setAttribute("hoverable", "");
