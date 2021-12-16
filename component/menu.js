@@ -3,15 +3,42 @@ import MENU_VAL from "../constant/menu.js";
 import getElementPos from "../Tool/getElementPosition.js";
 let isMenuOpen = false;
 const itemList = [
-	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
-	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
-	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
-	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
-	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
-	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
-	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
-	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
-	"https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+	{
+		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		shape: "a-box",
+	},
+	{
+		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		shape: "a-sphere",
+	},
+	{
+		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		shape: "a-cylinder",
+	},
+	{
+		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		shape: "a-circle",
+	},
+	{
+		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		shape: "a-triangle",
+	},
+	{
+		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		shape: "a-dodecahedron",
+	},
+	{
+		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		shape: "a-box",
+	},
+	{
+		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		shape: "a-box",
+	},
+	{
+		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		shape: "a-box",
+	},
 ];
 
 window.addEventListener("keydown", function (e) {
@@ -56,20 +83,20 @@ const createMenu = (name) => {
 
 		const select_item = document.createElement("a-plane");
 		select_item.setAttribute("id", `a-plane-${index.toString()}`);
-		select_item.setAttribute("src", itemList[index]);
+		select_item.setAttribute("src", itemList[index].img);
 		select_item.setAttribute("height", "1");
 		select_item.setAttribute("width", "1");
 		select_item.setAttribute("position", `${spacing_row} ${spacing_col} 0.14`);
 
 		select_item.addEventListener("click", function () {
-			const createObject = createItemObject(
-				`create-object-${index.toString()}`,
-				`https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf`
-			);
-			// const createObject = createBox(
+			// const createObject = createItemObject(
 			// 	`create-object-${index.toString()}`,
-			// 	"a-cylinder"
+			// 	`https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf`
 			// );
+			const createObject = createBox(
+				`create-object-${index.toString()}`,
+				itemList[index].shape
+			);
 			createObject.addEventListener("click", function () {
 				// todo be able to drag
 				console.log("hello world");
@@ -98,6 +125,11 @@ const createBox = (id, shape) => {
 	createObject.setAttribute("id", id);
 	createObject.setAttribute("height", `1`);
 	createObject.setAttribute("width", `1`);
+	createObject.setAttribute("hoverable", "");
+	createObject.setAttribute("grabbable", "");
+	createObject.setAttribute("stretchable", "");
+	createObject.setAttribute("draggable", "");
+	createObject.setAttribute("dropppable", "");
 	createObject.setAttribute("color", `tomato`);
 	return createObject;
 };

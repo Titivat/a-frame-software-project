@@ -1,5 +1,17 @@
 import CAM from "../constant/cameraIdConst.js";
 
+// left hand
+const leftHand = document.createElement("a-entity");
+leftHand.setAttribute("sphere-collider", "objects: a-box");
+leftHand.setAttribute("super-hands", true);
+leftHand.setAttribute("hand-controls", "hand: left");
+
+// right hand
+const rightHand = document.createElement("a-entity");
+rightHand.setAttribute("sphere-collider", "objects: a-box");
+rightHand.setAttribute("super-hands", true);
+rightHand.setAttribute("hand-controls", "hand: right");
+
 // ground
 const floor = document.createElement("a-plane");
 floor.setAttribute("normal-map", "#ground");
@@ -32,6 +44,8 @@ insideCamRig.appendChild(cursor);
 camRig.appendChild(insideCamRig);
 
 // add to screen
+scene.appendChild(leftHand);
+scene.appendChild(rightHand);
 scene.appendChild(floor);
 scene.appendChild(upperPart);
 scene.appendChild(camRig);
