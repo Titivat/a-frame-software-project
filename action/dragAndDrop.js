@@ -40,6 +40,7 @@ AFRAME.registerComponent("track-cursor", {
 		this.el.addEventListener("click", (e) => {
 			console.log("Stop dragging");
 			console.log(this.el.object3D.position);
+			// position, rotation, scale, object
 			ws.send(JSON.stringify(this.el.object3D.position));
 			if (this.el.is("dragging")) {
 				this.el.sceneEl.camera.el.setAttribute("look-controls", {
