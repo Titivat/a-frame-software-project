@@ -179,6 +179,10 @@ var _getElementPosition = _interopRequireDefault(require("../Tool/getElementPosi
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 var isMenuOpen = false;
 var itemList = [{
   img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
@@ -215,6 +219,59 @@ window.addEventListener("keydown", function (e) {
     popUpMenu(isMenuOpen);
   }
 });
+var API_PATH_NAME = "https://reqres.in";
+
+function postData() {
+  return _postData.apply(this, arguments);
+}
+
+function _postData() {
+  _postData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var url,
+        data,
+        response,
+        _args = arguments;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            url = _args.length > 0 && _args[0] !== undefined ? _args[0] : "";
+            data = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
+            _context.next = 4;
+            return fetch("".concat(API_PATH_NAME).concat(url), {
+              method: "POST",
+              // *GET, POST, PUT, DELETE, etc.
+              mode: "cors",
+              // no-cors, *cors, same-origin
+              cache: "no-cache",
+              // *default, no-cache, reload, force-cache, only-if-cached
+              credentials: "same-origin",
+              // include, *same-origin, omit
+              headers: {
+                "Content-Type": "application/json" // 'Content-Type': 'application/x-www-form-urlencoded',
+
+              },
+              redirect: "follow",
+              // manual, *follow, error
+              referrerPolicy: "no-referrer",
+              // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+              body: JSON.stringify(data) // body data type must match "Content-Type" header
+
+            });
+
+          case 4:
+            response = _context.sent;
+            return _context.abrupt("return", response.json());
+
+          case 6:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _postData.apply(this, arguments);
+}
 
 var popUpMenu = function popUpMenu(isMenuOpen) {
   var menuName = _menu.default.id;
@@ -263,16 +320,22 @@ var createMenu = function createMenu(name) {
     select_item.setAttribute("width", "1");
     select_item.setAttribute("position", "".concat(spacing_row, " ").concat(spacing_col, " 0.14"));
     select_item.addEventListener("click", function () {
-      // const createObject = createItemObject(
+      var createObject = createItemObject("create-object-".concat(index.toString()), "https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf"); // const createObject = createBox(
       // 	`create-object-${index.toString()}`,
-      // 	`https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf`
+      // 	itemList[index].shape
       // );
-      var createObject = createBox("create-object-".concat(index.toString()), itemList[index].shape);
+
       createObject.addEventListener("click", function () {
+        console.log("I am from menu"); // const data = {
+        // 	name: "morpheus",
+        // 	job: "leader",
+        // };
+        // const response = await postData("/api/users", data);
         // todo be able to drag
-        console.log("hello world");
+        // console.log("Click: %c", "background: red;padding: 100000px;");
+        // console.log(createObject.sceneEl.camera.el.object3D.position);
       });
-      createObject.setAttribute("position", "".concat(xPos, " 0 ").concat(zPos - 2));
+      createObject.setAttribute("position", "".concat(xPos, " 2 ").concat(zPos - 2));
       scene.appendChild(createObject);
     });
     spacing_row += 2;
@@ -290,6 +353,7 @@ var createItemObject = function createItemObject(id, modelLink) {
   var createObject = document.createElement("a-entity");
   createObject.setAttribute("id", id);
   createObject.setAttribute("gltf-model", modelLink);
+  createObject.setAttribute("dragndrop", "");
   createObject.setAttribute("response-type", "arraybuffer");
   createObject.setAttribute("crossorigin", "anonymous");
   return createObject;
@@ -352,7 +416,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58694" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49596" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

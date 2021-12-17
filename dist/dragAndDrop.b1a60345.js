@@ -118,10 +118,68 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"action/dragAndDrop.js":[function(require,module,exports) {
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 // if (window.AFRAME == null) {
 // 	console.log("I am not AFRAME");
 // 	console.error("aframe not found, please import it before this component.");
 // }
+var API_PATH_NAME = "https://reqres.in";
+
+function postData() {
+  return _postData.apply(this, arguments);
+}
+
+function _postData() {
+  _postData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var url,
+        data,
+        response,
+        _args = arguments;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            url = _args.length > 0 && _args[0] !== undefined ? _args[0] : "";
+            data = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
+            _context.next = 4;
+            return fetch("".concat(API_PATH_NAME).concat(url), {
+              method: "POST",
+              // *GET, POST, PUT, DELETE, etc.
+              mode: "cors",
+              // no-cors, *cors, same-origin
+              cache: "no-cache",
+              // *default, no-cache, reload, force-cache, only-if-cached
+              credentials: "same-origin",
+              // include, *same-origin, omit
+              headers: {
+                "Content-Type": "application/json" // 'Content-Type': 'application/x-www-form-urlencoded',
+
+              },
+              redirect: "follow",
+              // manual, *follow, error
+              referrerPolicy: "no-referrer",
+              // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+              body: JSON.stringify(data) // body data type must match "Content-Type" header
+
+            });
+
+          case 4:
+            response = _context.sent;
+            return _context.abrupt("return", response.json());
+
+          case 6:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _postData.apply(this, arguments);
+}
+
 AFRAME.registerSystem("track-cursor", {
   init: function init() {
     this.el.setAttribute("cursor", {
@@ -143,12 +201,25 @@ AFRAME.registerComponent("track-cursor", {
       }
     });
     this.el.addEventListener("click", function (e) {
+      console.log("Stop dragging");
+      ws.send("I am from click"); // console.log(this.el.object3D.position);
+      // const data = {
+      // 	name: "morpheus",
+      // 	job: "leader",
+      // };
+      // const response = await postData("/api/users", data);
+      // console.log(response);
+
       if (_this.el.is("dragging")) {
+        // console.log("dragging");
+        // const response = await postData("/api/users", data);
         _this.el.sceneEl.camera.el.setAttribute("look-controls", {
           enabled: true
         });
 
         _this.el.removeState("dragging");
+      } else {
+        console.log("Not dragging");
       }
     });
   }
@@ -238,7 +309,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58694" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49596" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

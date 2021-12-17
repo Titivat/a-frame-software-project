@@ -22,6 +22,9 @@
 		"webpack": "^5.62.1"
 	},
 	"dependencies": {
-		"aframe-click-drag-component": "^3.0.1"
+		"aframe-click-drag-component": "^3.0.1",
+		"bufferutil": "^4.0.5",
+		"utf-8-validate": "^5.0.7",
+		"ws": "^8.3.0"
 	}
 }

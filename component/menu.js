@@ -49,6 +49,25 @@ window.addEventListener("keydown", function (e) {
 	}
 });
 
+const API_PATH_NAME = "https://reqres.in";
+async function postData(url = "", data = {}) {
+	// Default options are marked with *
+	const response = await fetch(`${API_PATH_NAME}${url}`, {
+		method: "POST", // *GET, POST, PUT, DELETE, etc.
+		mode: "cors", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			"Content-Type": "application/json",
+			// 'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		body: JSON.stringify(data), // body data type must match "Content-Type" header
+	});
+	return response.json(); // parses JSON response into native JavaScript objects
+}
+
 const popUpMenu = (isMenuOpen) => {
 	const menuName = MENU_VAL.id;
 	if (isMenuOpen) {
@@ -98,10 +117,9 @@ const createMenu = (name) => {
 				itemList[index].shape
 			);
 			createObject.addEventListener("click", function () {
-				// todo be able to drag
-				console.log("hello world");
+				// console.log("I am from menu");
 			});
-			createObject.setAttribute("position", `${xPos} 0 ${zPos - 2}`);
+			createObject.setAttribute("position", `${xPos} 2 ${zPos - 2}`);
 			scene.appendChild(createObject);
 		});
 		spacing_row += 2;
@@ -114,6 +132,7 @@ const createItemObject = (id, modelLink) => {
 	const createObject = document.createElement("a-entity");
 	createObject.setAttribute("id", id);
 	createObject.setAttribute("gltf-model", modelLink);
+	createObject.setAttribute("dragndrop", "");
 	createObject.setAttribute("response-type", `arraybuffer`);
 	createObject.setAttribute("crossorigin", `anonymous`);
 	return createObject;

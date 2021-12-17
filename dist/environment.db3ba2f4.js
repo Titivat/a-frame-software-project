@@ -170,8 +170,8 @@ insideCamRig.setAttribute("wasd-controls", "");
 insideCamRig.setAttribute("camera", "true");
 insideCamRig.setAttribute("position", "0 1.7 0");
 var cursor = document.createElement("a-cursor");
-cursor.setAttribute("id", _cameraIdConst.default.CURSOR);
-insideCamRig.appendChild(cursor);
+cursor.setAttribute("id", _cameraIdConst.default.CURSOR); // insideCamRig.appendChild(cursor);
+
 camRig.appendChild(insideCamRig); // add to screen
 
 scene.appendChild(leftHand);
@@ -207,7 +207,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58694" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49596" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

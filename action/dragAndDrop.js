@@ -2,6 +2,24 @@
 // 	console.log("I am not AFRAME");
 // 	console.error("aframe not found, please import it before this component.");
 // }
+const API_PATH_NAME = "https://reqres.in";
+async function postData(url = "", data = {}) {
+	// Default options are marked with *
+	const response = await fetch(`${API_PATH_NAME}${url}`, {
+		method: "POST", // *GET, POST, PUT, DELETE, etc.
+		mode: "cors", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			"Content-Type": "application/json",
+			// 'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		body: JSON.stringify(data), // body data type must match "Content-Type" header
+	});
+	return response.json(); // parses JSON response into native JavaScript objects
+}
 
 AFRAME.registerSystem("track-cursor", {
 	init: function () {
@@ -20,11 +38,16 @@ AFRAME.registerComponent("track-cursor", {
 			}
 		});
 		this.el.addEventListener("click", (e) => {
+			console.log("Stop dragging");
+			console.log(this.el.object3D.position);
+			ws.send(JSON.stringify(this.el.object3D.position));
 			if (this.el.is("dragging")) {
 				this.el.sceneEl.camera.el.setAttribute("look-controls", {
 					enabled: true,
 				});
 				this.el.removeState("dragging");
+			} else {
+				console.log("Not dragging");
 			}
 		});
 	},
@@ -77,21 +100,21 @@ AFRAME.registerComponent("dragndrop", {
 });
 
 AFRAME.registerComponent("change-color-on-hover", {
-    schema: {
-        color: { default: "red" },
-    },
+	schema: {
+		color: { default: "red" },
+	},
 
-    init: function () {
-        var data = this.data;
-        var el = this.el; // <a-box>
-        var defaultColor = el.getAttribute("material").color;
+	init: function () {
+		var data = this.data;
+		var el = this.el; // <a-box>
+		var defaultColor = el.getAttribute("material").color;
 
-        el.addEventListener("mouseenter", function () {
-            el.setAttribute("color", data.color);
-        });
+		el.addEventListener("mouseenter", function () {
+			el.setAttribute("color", data.color);
+		});
 
-        el.addEventListener("mouseleave", function () {
-            el.setAttribute("color", defaultColor);
-        });
-    },
+		el.addEventListener("mouseleave", function () {
+			el.setAttribute("color", defaultColor);
+		});
+	},
 });
