@@ -46,6 +46,6 @@ camRig.appendChild(insideCamRig);
 // add to screen
 scene.appendChild(leftHand);
 scene.appendChild(rightHand);
-scene.appendChild(floor);
-scene.appendChild(upperPart);
+// scene.appendChild(floor);
+// scene.appendChild(upperPart);
 scene.appendChild(camRig);
