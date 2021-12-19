@@ -175,11 +175,11 @@ cursor.setAttribute("id", _cameraIdConst.default.CURSOR); // insideCamRig.append
 camRig.appendChild(insideCamRig); // add to screen
 
 scene.appendChild(leftHand);
-scene.appendChild(rightHand);
-scene.appendChild(floor);
-scene.appendChild(upperPart);
+scene.appendChild(rightHand); // scene.appendChild(floor);
+// scene.appendChild(upperPart);
+
 scene.appendChild(camRig);
-},{"../constant/cameraIdConst.js":"constant/cameraIdConst.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"../constant/cameraIdConst.js":"constant/cameraIdConst.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -207,7 +207,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49596" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57500" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -383,5 +383,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","component/environment.js"], null)
+},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","component/environment.js"], null)
 //# sourceMappingURL=/environment.db3ba2f4.js.map

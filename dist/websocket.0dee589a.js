@@ -118,24 +118,90 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"websocket/index.js":[function(require,module,exports) {
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 // const WebSocket = require("ws");
 var PORT = 1337;
 var ws = new WebSocket("ws://localhost:".concat(PORT));
 
 ws.onopen = function () {
-  ws.send("Message to send");
+  var data = JSON.stringify({
+    status: "first",
+    id: "something"
+  });
+  ws.send(data);
 };
 
 ws.onmessage = function (evt) {
   var received_msg = evt.data;
-  alert("Message is received...");
+  var incomingData = JSON.parse(received_msg);
+
+  if (incomingData.type === "first-connect") {
+    var _iterator = _createForOfIteratorHelper(incomingData.response),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var item = _step.value;
+        var _item$position = item.position,
+            x = _item$position.x,
+            y = _item$position.y,
+            z = _item$position.z;
+        var newItem = document.createElement("a-entity");
+        newItem.setAttribute("id", item.id);
+        newItem.setAttribute("gltf-model", item.modelLink);
+        newItem.setAttribute("dragndrop", "");
+        newItem.setAttribute("response-type", "arraybuffer");
+        newItem.setAttribute("crossorigin", "anonymous");
+        newItem.setAttribute("position", "".concat(x, " ").concat(y, " ").concat(z));
+        console.log(newItem.getAttribute("position"));
+        scene.appendChild(newItem);
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    var data = JSON.stringify({
+      status: "finish-populate",
+      id: "something"
+    });
+    ws.send(data);
+  } else if (incomingData.type === "refresh") {
+    var _iterator2 = _createForOfIteratorHelper(incomingData.response),
+        _step2;
+
+    try {
+      for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+        var _item = _step2.value;
+        var _item$position2 = _item.position,
+            _x = _item$position2.x,
+            _y = _item$position2.y,
+            _z = _item$position2.z;
+
+        var _newItem = document.getElementById(_item.id);
+
+        _newItem.setAttribute("position", "".concat(_x, " ").concat(_y, " ").concat(_z));
+
+        console.log(_newItem.getAttribute("position"));
+        scene.appendChild(_newItem);
+      }
+    } catch (err) {
+      _iterator2.e(err);
+    } finally {
+      _iterator2.f();
+    }
+  }
 };
 
-ws.onclose = function () {
-  // websocket is closed.
-  alert("Connection is closed...");
+ws.onclose = function () {// alert("Connection is closed...");
 };
-},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -163,7 +229,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49596" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57500" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -339,5 +405,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","websocket/index.js"], null)
+},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","websocket/index.js"], null)
 //# sourceMappingURL=/websocket.0dee589a.js.map

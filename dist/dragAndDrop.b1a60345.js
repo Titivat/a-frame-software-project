@@ -202,17 +202,11 @@ AFRAME.registerComponent("track-cursor", {
     });
     this.el.addEventListener("click", function (e) {
       console.log("Stop dragging");
-      ws.send("I am from click"); // console.log(this.el.object3D.position);
-      // const data = {
-      // 	name: "morpheus",
-      // 	job: "leader",
-      // };
-      // const response = await postData("/api/users", data);
-      // console.log(response);
+      console.log(_this.el.object3D.position); // position, rotation, scale, object
+
+      ws.send(JSON.stringify(_this.el.object3D.position));
 
       if (_this.el.is("dragging")) {
-        // console.log("dragging");
-        // const response = await postData("/api/users", data);
         _this.el.sceneEl.camera.el.setAttribute("look-controls", {
           enabled: true
         });
@@ -281,7 +275,7 @@ AFRAME.registerComponent("change-color-on-hover", {
     });
   }
 });
-},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -309,7 +303,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49596" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57500" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -485,5 +479,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","action/dragAndDrop.js"], null)
+},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","action/dragAndDrop.js"], null)
 //# sourceMappingURL=/dragAndDrop.b1a60345.js.map

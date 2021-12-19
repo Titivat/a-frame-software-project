@@ -4,39 +4,39 @@ import getElementPos from "../Tool/getElementPosition.js";
 let isMenuOpen = false;
 const itemList = [
 	{
-		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		img: "#box",
 		shape: "a-box",
 	},
 	{
-		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		img: "#sphere",
 		shape: "a-sphere",
 	},
 	{
-		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		img: "#cylinder",
 		shape: "a-cylinder",
 	},
 	{
-		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		img: "#circle",
 		shape: "a-circle",
 	},
 	{
-		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		img: "#triangle",
 		shape: "a-triangle",
 	},
 	{
-		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		img: "#dodecahedron",
 		shape: "a-dodecahedron",
 	},
 	{
-		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		img: "#box",
 		shape: "a-box",
 	},
 	{
-		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		img: "#box",
 		shape: "a-box",
 	},
 	{
-		img: "https://yt3.ggpht.com/ytc/AKedOLRQAFnHpU09DMFpzeSt2Ke6sOm8lcAYRFAWFSqekA=s68-c-k-c0x00ffffff-no-rj",
+		img: "#box",
 		shape: "a-box",
 	},
 ];
@@ -69,7 +69,7 @@ const createMenu = (name) => {
 	const menu = document.createElement("a-plane");
 	menu.setAttribute("id", name);
 	menu.setAttribute("color", "yellow");
-	// menu.setAttribute("material", "opacity: 0.0; transparent: true");
+	menu.setAttribute("material", "opacity: 0.0; transparent: true");
 	menu.setAttribute("height", "5");
 	menu.setAttribute("width", "5");
 
@@ -86,7 +86,10 @@ const createMenu = (name) => {
 		select_item.setAttribute("src", itemList[index].img);
 		select_item.setAttribute("height", "1");
 		select_item.setAttribute("width", "1");
-		select_item.setAttribute("position", `${spacing_row} ${spacing_col} 0.14`);
+		select_item.setAttribute(
+			"position",
+			`${spacing_row} ${spacing_col + 0.3} 0.14`
+		);
 
 		select_item.addEventListener("click", function () {
 			// const createObject = createItemObject(
@@ -126,12 +129,7 @@ const createBox = (id, shape) => {
 	createObject.setAttribute("dragndrop", "");
 	createObject.setAttribute("height", `1`);
 	createObject.setAttribute("width", `1`);
-	createObject.setAttribute("hoverable", "");
-	createObject.setAttribute("grabbable", "");
-	createObject.setAttribute("stretchable", "");
-	createObject.setAttribute("draggable", "");
-	createObject.setAttribute("dropppable", "");
-	createObject.setAttribute("color", `tomato`);
+	createObject.setAttribute("color", `#4CC3D9`);
 	return createObject;
 };
 

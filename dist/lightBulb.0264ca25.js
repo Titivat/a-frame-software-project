@@ -117,22 +117,25 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"Assets/index.js":[function(require,module,exports) {
-var texture = "<img id=\"texture\" src=\"./img/texture.png\" />";
-var ground = "<img id=\"ground\" src=\"./img/ground.jpg\" />";
-var sky = "<img id=\"sky\" src=\"./img/sky.jpg\" />";
-var box = "<img id=\"box\" src=\"../img/Box.PNG\" />";
-var circle = "<img id=\"circle\" src=\"../img/Circle.PNG\" />";
-var cylinder = "<img id=\"cylinder\" src=\"../img/Cylinder.PNG\" />";
-var dodecahedron = "<img id=\"dodecahedron\" src=\"../img/dodecahedron.PNG\" />";
-var sphere = "<img id=\"sphere\" src=\"../img/sphere.PNG\" />";
-var triangle = "<img id=\"triangle\" src=\"../img/triangle.PNG\" />";
-var assetName = ['<img id="texture" src="./img/texture.png" />', "<img id=\"ground\" src=\"./img/ground.jpg\" />", "<img id=\"sky\" src=\"./img/sky.jpg\" />", "<img id=\"box\" src=\"../img/Box.PNG\" />", "<img id=\"circle\" src=\"../img/Circle.PNG\" />", "<img id=\"cylinder\" src=\"../img/Cylinder.PNG\" />", "<img id=\"dodecahedron\" src=\"../img/dodecahedron.PNG\" />", "<img id=\"sphere\" src=\"../img/sphere.PNG\" />", "<img id=\"triangle\" src=\"../img/triangle.PNG\" />"];
-var assetComponent = assetName.map(function (item) {
-  return item + " ";
-}); // const assetComponent = `${texture} ${ground} ${sky} ${box}`;
+})({"action/lightBulb.js":[function(require,module,exports) {
+AFRAME.registerComponent("lightbulb", {
+  init: function init() {
+    this.isOn = false;
+    this.count = 0;
+    var el = this.el;
+    el.addEventListener("click", function () {
+      console.log(el.getAttribute("light"));
 
-document.getElementById("assets").innerHTML = assetComponent;
+      if (this.On) {
+        el.setAttribute("light", "type: point; intensity: 1; distance: 100; decay: 0");
+        this.On = false;
+      } else {
+        el.setAttribute("light", "type: point; intensity: 0; distance: 100; decay: 0");
+        this.On = true;
+      }
+    });
+  }
+});
 },{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -337,5 +340,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","Assets/index.js"], null)
-//# sourceMappingURL=/Assets.347a8a09.js.map
+},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","action/lightBulb.js"], null)
+//# sourceMappingURL=/lightBulb.0264ca25.js.map
