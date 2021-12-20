@@ -1,7 +1,7 @@
 const CAM_VAL = {
-    OUTSIDE_CIRCLE: "#cam-rig",
-    MIDDLE_CIRCLE: "#camera",
-    CURSOR: "#cursor",
+    CAMERA_RIG: "rig",
+    CAMERA: "camera",
+    CURSOR: "cursor",
 }
 
 export default CAM_VAL;
