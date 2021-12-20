@@ -1,7 +1,3 @@
-console.log(
-    "KUYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY"
-);
-
 AFRAME.registerSystem("cyber-ws", {
     // Initial state.
     schema: {
@@ -59,7 +55,7 @@ AFRAME.registerSystem("cyber-ws", {
                             newItem.setAttribute(property.name, property.value);
                         }
                         sceneEl.appendChild(newItem);
-                        console.log("SHIT CREATED")
+
                     } else {
                         element.setAttribute(
                             "rotation",
@@ -76,7 +72,7 @@ AFRAME.registerSystem("cyber-ws", {
                         for (let property of item.properties) {
                             element.setAttribute(property.name, property.value);
                         }
-                        console.log("SHIT UPDATED")
+
                     }
                 }
             }
@@ -87,10 +83,10 @@ AFRAME.registerSystem("cyber-ws", {
         };
 
         // UPDATE TAG OF DEVICE
-        // this.el.addEventListener("set_tag", (e) => {
-        //     let data = { action: "set_tag", data: e }
-        //     this.ws.send(JSON.stringify(data))
-        // })
+        this.el.addEventListener("set_tag", (e) => {
+            let data = { action: "set_device_tag", data: e.detail }
+            this.ws.send(JSON.stringify(data))
+        })
 
         this.el.addEventListener("update_item", function(e) {
             console.log("UPDATE")

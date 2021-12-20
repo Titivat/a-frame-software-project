@@ -16,9 +16,6 @@
     <script type="module" src="./action/dragAndDrop.js"></script>
     <script type="module" src="./action/lightBulb.js"></script>
     <script type="module" src="./system/cyber-ws.js"></script>
-
-
-
 </head>
 
 <body>
@@ -34,7 +31,6 @@
             const scene = document.querySelector("a-scene");
         </script>
 
-
         <a-assets id="assets">
             <script type="module" src="./Assets/index.js"></script>
             <a-asset-item id="lab" src="./Assets/3dObject/Lab.gltf" />
@@ -46,16 +42,29 @@
         <a-entity position="-1 100 -3" light="type: ambient;intensity: 0.5;color: #FFFFFF"></a-entity>
         <a-entity position="-1 100 -3" light="type: directional;intensity: 0.2;color: #FFFFFF"></a-entity>
 
+        <!-- <a-gui-button width="1.5" height="0.7" base-depth="0.025" depth="0.1" gap="0.1" value="Sample Button" font-size="0.25" margin="0 0 0.05 0" font-color="black" background-color="orange" position="1 1 1">
+        </a-gui-button> -->
+
+        <!--Furniture for Dr.Visit Lab-->
+        <!-- <a-entity gltf-model="url(https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/table.gltf)"></a-entity>
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/table.gltf)"></a-entity>
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/table.gltf)"></a-entity>
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/table.gltf)"></a-entity>
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/table.gltf)"></a-entity>
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/table.gltf)"></a-entity>
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/deskDrawer.gltf)"></a-entity>
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/shelfDouble.gltf)"></a-entity>
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/shelfGlass.gltf)"></a-entity>
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/wallPartition.gltf)"></a-entity>
+        <a-entity gltf-model="url(https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/locker.gltf)"></a-entity> -->
+
         <!-- demo lightbulb -->
         <!-- <a-entity id="bulb" gltf-model="#lightbulb" dragndrop lightbulb scale="0.001 0.001 0.001" position="0 2 0"></a-entity> -->
 
         <script>
             const room = document.createElement("a-entity");
-            room.setAttribute("id", "aFkingRoom");
+            room.setAttribute("id", "ictRoom");
             room.setAttribute("gltf-model", "#lab");
-            room.setAttribute("dragndrop", "");
-            room.setAttribute("response-type", `arraybuffer`);
-            room.setAttribute("crossorigin", `anonymous`);
             room.setAttribute("scale", `1 1.5 1`);
             room.setAttribute("position", `-5 0.51 5`);
             scene.appendChild(room);
@@ -66,11 +75,9 @@
 
         <!-- menu -->
         <script type="module" src="./component/lightbulb.js"></script>
-
     </a-scene>
     <!-- CONNECT TO SERVER AFTER SCENE IS LOADED -->
     <script type="module" src="./component/menu.js"></script>
-
 </body>
 
 </html>
