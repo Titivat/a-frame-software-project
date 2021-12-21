@@ -10,8 +10,63 @@ AFRAME.registerSystem("cyber-ws", {
         console.log("START CONNECTION");
         sceneEl.emit("connectionStarted", { host: host });
 
-        this.ws = new WebSocket(host);
+        // UPDATE TAG OF DEVICE
+        this.el.addEventListener("set_tag", (e) => {
+            let data = { action: "set_device_tag", data: e.detail }
+            this.ws.send(JSON.stringify(data))
+        })
 
+        this.el.addEventListener("update_item", function(e) {
+            console.log("UPDATE")
+            let toUpdate = e.target
+            console.log(toUpdate.components)
+            if (toUpdate.components.geometry) {
+                let data = {
+                    action: "update_item",
+                    data: {
+                        name: toUpdate.id,
+                        type: toUpdate.components.geometry.data.primitive,
+                        position: AFRAME.utils.coordinates.stringify(toUpdate.object3D.position),
+                        rotation: AFRAME.utils.coordinates.stringify(toUpdate.object3D.rotation),
+                        scale: AFRAME.utils.coordinates.stringify(toUpdate.object3D.scale),
+                        properties: [{
+                                name: "height",
+                                value: toUpdate.components.geometry.data.height
+                            },
+                            {
+                                name: "width",
+                                value: toUpdate.components.geometry.data.width
+                            },
+                            {
+                                name: "color",
+                                value: toUpdate.components.material.data.color
+                            },
+                        ]
+                    }
+                }
+                console.log(data)
+                this.ws.send(JSON.stringify(data))
+
+            }
+        }.bind(this));
+
+        this.el.addEventListener("create_item", function(e) {
+            console.log("CREATE")
+            let toCreate = e.detail
+            let data = {
+                action: "create_item",
+                data: toCreate
+            }
+            console.log(data)
+            this.ws.send(JSON.stringify(data))
+
+        }.bind(this));
+
+        this.connect()
+    },
+
+    connect: function() {
+        this.ws = new WebSocket(host);
         this.ws.onopen = function() {
             const data = JSON.stringify({
                 action: "init_world",
@@ -79,59 +134,9 @@ AFRAME.registerSystem("cyber-ws", {
         };
 
         this.ws.onclose = function() {
-            alert("KABOOM!");
+            setTimeout(function() {
+                connect();
+            }, 250);
         };
-
-        // UPDATE TAG OF DEVICE
-        this.el.addEventListener("set_tag", (e) => {
-            let data = { action: "set_device_tag", data: e.detail }
-            this.ws.send(JSON.stringify(data))
-        })
-
-        this.el.addEventListener("update_item", function(e) {
-            console.log("UPDATE")
-            let toUpdate = e.target
-            console.log(toUpdate.components)
-            if (toUpdate.components.geometry) {
-                let data = {
-                    action: "update_item",
-                    data: {
-                        name: toUpdate.id,
-                        type: toUpdate.components.geometry.data.primitive,
-                        position: AFRAME.utils.coordinates.stringify(toUpdate.object3D.position),
-                        rotation: AFRAME.utils.coordinates.stringify(toUpdate.object3D.rotation),
-                        scale: AFRAME.utils.coordinates.stringify(toUpdate.object3D.scale),
-                        properties: [{
-                                name: "height",
-                                value: toUpdate.components.geometry.data.height
-                            },
-                            {
-                                name: "width",
-                                value: toUpdate.components.geometry.data.width
-                            },
-                            {
-                                name: "color",
-                                value: toUpdate.components.material.data.color
-                            },
-                        ]
-                    }
-                }
-                console.log(data)
-                this.ws.send(JSON.stringify(data))
-
-            }
-        }.bind(this));
-
-        this.el.addEventListener("create_item", function(e) {
-            console.log("CREATE")
-            let toCreate = e.detail
-            let data = {
-                action: "create_item",
-                data: toCreate
-            }
-            console.log(data)
-            this.ws.send(JSON.stringify(data))
-
-        }.bind(this));
-    },
+    }
 });
