@@ -37,7 +37,7 @@ insideCamRig.setAttribute("wasd-controls", "");
 insideCamRig.setAttribute("camera", "true");
 insideCamRig.setAttribute("position", "0 1.7 0");
 
-const cursor = document.createElement("a-cursor");
+const cursor = document.createElement("a-cursor");s
 cursor.setAttribute("id", CAM.CURSOR);
 
 // insideCamRig.appendChild(cursor);
