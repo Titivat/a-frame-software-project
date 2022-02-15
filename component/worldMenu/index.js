@@ -9,7 +9,6 @@ import createButton from "./createButton.js";
 let isMenuOpen = false;
 document.addEventListener("keydown", function (e) {
 	if (e.key === "Q" || e.key === "q") {
-		// Todo create a box front of the user
 		isMenuOpen = !isMenuOpen;
 		worldPopUpMenu(isMenuOpen);
 	}
@@ -26,32 +25,40 @@ const items = [
 	"8",
 	"9",
 	"10",
-	// "11",
-	// "12",
-	// "13",
-	// "14",
-	// "15",
-	// "16",
-	// "17",
-	// "18",
-	// "19",
-	// "20",
+	"11",
+	"12",
+	"13",
+	"14",
+	"15",
+	"16",
+	"17",
+	"18",
+	"19",
+	"20",
 ];
 
 const worldPopUpMenu = (isMenuOpen) => {
 	const worldMenuName = MENU_VAL.world_id;
 	if (isMenuOpen) {
-		const { xPos, yPos, zPos } = getElementPos(CAM_VAL.CAMERA);
 		let pageIndex = 0;
+		const { xPos, yPos, zPos } = getElementPos(CAM_VAL.CAMERA);
+
+		// layout of the menu
 		const worldMenu = createWorldMenuLayout(worldMenuName);
+
+		// formatting the body for displaying item
 		const rowContainer1 = createRowContainer("rowId1");
 		const rowContainer2 = createRowContainer("rowId2");
 		worldMenu.appendChild(rowContainer1);
 		worldMenu.appendChild(rowContainer2);
+
+		// init the display of the item
 		displayMenuItem(rowContainer1, rowContainer2, items, pageIndex);
+
+		// changing page of the item (all the display is here after click next or prev)
 		bottomLayout(worldMenu, items, pageIndex);
-		console.log("I am pageIndex from worldPopUpMenu");
-		console.log(pageIndex);
+
+		// set position for the menu
 		worldMenu.setAttribute("position", `${xPos} ${yPos + 3} ${zPos - 4.5}`);
 		scene.appendChild(worldMenu);
 	} else if (!isMenuOpen) {
