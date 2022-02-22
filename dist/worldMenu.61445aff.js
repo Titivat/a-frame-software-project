@@ -169,177 +169,245 @@ var getElementPosition = function getElementPosition(elementId) {
 
 var _default = getElementPosition;
 exports.default = _default;
-},{}],"component/menu.js":[function(require,module,exports) {
+},{}],"component/worldMenu/subComponent/createWorldMenuLayout.js":[function(require,module,exports) {
 "use strict";
 
-var _cameraIdConst = _interopRequireDefault(require("../constant/cameraIdConst.js"));
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
 
-var _menu = _interopRequireDefault(require("../constant/menu.js"));
+var createWorldMenuLayout = function createWorldMenuLayout(name) {
+  var worldMenu = document.createElement("a-gui-flex-container");
+  worldMenu.setAttribute("id", name);
+  worldMenu.setAttribute("flex-direction", "column");
+  worldMenu.setAttribute("justify-content", "center");
+  worldMenu.setAttribute("align-items", "normal");
+  worldMenu.setAttribute("component-padding", "0.1");
+  worldMenu.setAttribute("opacity", "0.7");
+  worldMenu.setAttribute("width", "11");
+  worldMenu.setAttribute("height", "4.5");
+  worldMenu.setAttribute("rotation", "0 0 0");
+  return worldMenu;
+};
 
-var _getElementPosition = _interopRequireDefault(require("../tools/getElementPosition.js"));
+var _default = createWorldMenuLayout;
+exports.default = _default;
+},{}],"component/worldMenu/subComponent/createNewItem.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var createNewItem = function createNewItem(name, id, fun) {
+  var newItem = document.createElement("a-gui-icon-label-button");
+  newItem.setAttribute("id", id);
+  newItem.setAttribute("margin", "0 0 0.1 0");
+  newItem.setAttribute("value", name);
+  newItem.setAttribute("width", "2.5");
+  newItem.setAttribute("height", "0.75");
+  newItem.setAttribute("font-size", "0.25");
+  newItem.setAttribute("line-height", "0.8");
+  newItem.setAttribute("letter-spacing", "0");
+  newItem.setAttribute("opacity", "0.6");
+  newItem.setAttribute("background-color", "#212121");
+  newItem.setAttribute("hover-color", "#FF0000");
+  newItem.addEventListener("click", fun);
+  return newItem;
+};
+
+var _default = createNewItem;
+exports.default = _default;
+},{}],"component/worldMenu/subComponent/createRowContainer.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var createRowContainer = function createRowContainer(id) {
+  var rowContainer = document.createElement("a-gui-flex-container");
+  rowContainer.setAttribute("id", id);
+  rowContainer.setAttribute("flex-direction", "row");
+  rowContainer.setAttribute("width", "3");
+  rowContainer.setAttribute("height", "1");
+  rowContainer.setAttribute("justify-content", "center");
+  rowContainer.setAttribute("opacity", "0.7");
+  rowContainer.setAttribute("margin", "0 0 0.1 0");
+  return rowContainer;
+};
+
+var _default = createRowContainer;
+exports.default = _default;
+},{}],"component/worldMenu/subComponent/createButton.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var createButton = function createButton(name, id, fun) {
+  var button = document.createElement("a-gui-button");
+  button.setAttribute("id", id);
+  button.setAttribute("width", "1.5");
+  button.setAttribute("height", "0.75");
+  button.setAttribute("value", name);
+  button.setAttribute("font-size", "0.25");
+  button.setAttribute("line-height", "0.8");
+  button.setAttribute("margin", "0 0 0.05 0");
+  button.addEventListener("click", fun);
+  return button;
+};
+
+var _default = createButton;
+exports.default = _default;
+},{}],"component/worldMenu/index.js":[function(require,module,exports) {
+"use strict";
+
+var _cameraIdConst = _interopRequireDefault(require("../../constant/cameraIdConst.js"));
+
+var _menu = _interopRequireDefault(require("../../constant/menu.js"));
+
+var _getElementPosition = _interopRequireDefault(require("../../tools/getElementPosition.js"));
+
+var _createWorldMenuLayout = _interopRequireDefault(require("./subComponent/createWorldMenuLayout.js"));
+
+var _createNewItem = _interopRequireDefault(require("./subComponent/createNewItem.js"));
+
+var _createRowContainer = _interopRequireDefault(require("./subComponent/createRowContainer.js"));
+
+var _createButton = _interopRequireDefault(require("./subComponent/createButton.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var isMenuOpen = false;
-console.log("loading menu");
-var itemList = [{
-  img: "#box_img",
-  shape: "box"
-}, {
-  img: "#sphere_img",
-  shape: "sphere"
-}, {
-  img: "#cylinder_img",
-  shape: "cylinder"
-}, {
-  img: "#circle_img",
-  shape: "circle"
-}, {
-  img: "#triangle_img",
-  shape: "triangle"
-}, {
-  img: "#dodecahedron_img",
-  shape: "dodecahedron"
-}, {
-  img: "#box_img",
-  shape: "box"
-}, {
-  img: "#box_img",
-  shape: "box"
-}, {
-  img: "#box_img",
-  shape: "box"
-}];
 document.addEventListener("keydown", function (e) {
-  if (e.key === "M" || e.key === "m") {
-    // Todo create a box front of the user
-    console.log("MENU BOOM");
+  if (e.key === "Q" || e.key === "q") {
     isMenuOpen = !isMenuOpen;
-    popUpMenu(isMenuOpen);
+    worldPopUpMenu(isMenuOpen);
   }
 });
+var items = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
 
-var popUpMenu = function popUpMenu(isMenuOpen) {
-  var menuName = _menu.default.id;
+var worldPopUpMenu = function worldPopUpMenu(isMenuOpen) {
+  var worldMenuName = _menu.default.world_id;
 
   if (isMenuOpen) {
+    var pageIndex = 0;
+
     var _getElementPos = (0, _getElementPosition.default)(_cameraIdConst.default.CAMERA),
         xPos = _getElementPos.xPos,
         yPos = _getElementPos.yPos,
-        zPos = _getElementPos.zPos;
+        zPos = _getElementPos.zPos; // layout of the menu
 
-    var menu = createMenu(menuName);
-    menu.setAttribute("position", "".concat(xPos, " ").concat(yPos + 3, " ").concat(zPos - 4));
-    scene.appendChild(menu); // addClickAbleToMenuItems();
+
+    var worldMenu = (0, _createWorldMenuLayout.default)(worldMenuName); // formatting the body for displaying item
+
+    var rowContainer1 = (0, _createRowContainer.default)("rowId1");
+    var rowContainer2 = (0, _createRowContainer.default)("rowId2");
+    worldMenu.appendChild(rowContainer1);
+    worldMenu.appendChild(rowContainer2); // init the display of the item
+
+    displayMenuItem(rowContainer1, rowContainer2, items, pageIndex); // changing page of the item (all the display is here after click next or prev)
+
+    bottomLayout(worldMenu, items, pageIndex); // set position for the menu
+
+    worldMenu.setAttribute("position", "".concat(xPos, " ").concat(yPos + 3, " ").concat(zPos - 4.5));
+    scene.appendChild(worldMenu);
   } else if (!isMenuOpen) {
-    //MENU_VAL.id
-    var removeMenu = document.getElementById(menuName);
+    var removeMenu = document.getElementById(worldMenuName);
     removeMenu.parentNode.removeChild(removeMenu);
   }
-};
+}; // adding Item to the menu
 
-var createMenu = function createMenu(name) {
-  var _getElementPos2 = (0, _getElementPosition.default)(_cameraIdConst.default.CAMERA),
-      xPos = _getElementPos2.xPos,
-      yPos = _getElementPos2.yPos,
-      zPos = _getElementPos2.zPos;
 
-  var menu = document.createElement("a-plane");
-  menu.setAttribute("id", name);
-  menu.setAttribute("color", "gray"); // smenu.setAttribute("material", "opacity: 0.0; transparent: false");
-
-  menu.setAttribute("height", "5");
-  menu.setAttribute("width", "5");
-  var spacing_row = -2;
-  var spacing_col = 2;
-
+var displayMenuItem = function displayMenuItem(rowContainer1, rowContainer2, items, pageIndex) {
   var _loop = function _loop(index) {
-    if (index % 3 === 0 && index !== 0) {
-      spacing_row = -2;
-      spacing_col -= 2;
+    if (items[index] === undefined) {
+      return "break";
     }
 
-    var select_item = document.createElement("a-plane");
-    select_item.setAttribute("id", "object-select-".concat(index.toString()));
-    select_item.setAttribute("src", itemList[index].img);
-    select_item.setAttribute("height", "1");
-    select_item.setAttribute("width", "1");
-    select_item.setAttribute("position", "".concat(spacing_row, " ").concat(spacing_col + 0.3, " 0.14"));
-    select_item.addEventListener("click", function () {
-      // const createObject = createItemObject(
-      // 	`create-object-${index.toString()}`,
-      // 	`https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf`
-      // );
-      var _getElementPos3 = (0, _getElementPosition.default)(_menu.default.id),
-          xPos = _getElementPos3.xPos,
-          yPos = _getElementPos3.yPos,
-          zPos = _getElementPos3.zPos;
-
-      var createObjectData = {
-        name: itemList[index].shape,
-        type: itemList[index].shape,
-        position: "".concat(xPos, " 2 ").concat(zPos + 1),
-        scale: "1 1 1",
-        rotation: "0 0 0",
-        properties: [{
-          name: 'color',
-          value: "cyan"
-        }]
-      };
-      createObjectData.properties.push({
-        name: 'width',
-        value: 1
-      });
-      createObjectData.properties.push({
-        name: 'height',
-        value: 1
-      });
-
-      if (itemList[index].shape === "circle" || itemList[index].shape === "sphere") {
-        createObjectData.properties.push({
-          name: 'radius',
-          value: 1
-        });
-      }
-
-      menu.emit("create_item", createObjectData);
+    var newItem = (0, _createNewItem.default)(items[index], "".concat(index, "-world-item"), function () {
+      console.log("I am a shape of " + items[index]);
     });
-    spacing_row += 2;
-    menu.appendChild(select_item);
+    index < 4 + pageIndex ? rowContainer1.appendChild(newItem) : rowContainer2.appendChild(newItem);
   };
 
-  for (var index = 0; index < itemList.length; index++) {
-    _loop(index);
-  }
+  for (var index = 0 + pageIndex; index < 8 + pageIndex; index++) {
+    var _ret = _loop(index);
 
-  return menu;
-};
-
-var createItemObject = function createItemObject(id, modelLink) {
-  var createObject = document.createElement("a-entity");
-  createObject.setAttribute("id", id);
-  createObject.setAttribute("gltf-model", modelLink);
-  createObject.setAttribute("dragndrop", "");
-  createObject.setAttribute("response-type", "arraybuffer");
-  createObject.setAttribute("crossorigin", "anonymous");
-  return createObject;
-}; // option
-
-
-var stickPopup = function stickPopup(isMenuOpen) {
-  var menuName = _menu.default.id;
-
-  if (isMenuOpen) {
-    var addToCursor = document.getElementById(_cameraIdConst.default.CURSOR);
-    var menu = createMenu(menuName);
-    menu.setAttribute("position", "0 0 -6");
-    addToCursor.appendChild(menu);
-  } else if (!isMenuOpen) {
-    var removeMenu = document.getElementById(menuName);
-    removeMenu.parentNode.removeChild(removeMenu);
+    if (_ret === "break") break;
   }
 };
-},{"../constant/cameraIdConst.js":"constant/cameraIdConst.js","../constant/menu.js":"constant/menu.js","../tools/getElementPosition.js":"tools/getElementPosition.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+var removeDisplayItem = function removeDisplayItem(pageIndex, items) {
+  for (var index = 0 + pageIndex; index < 8 + pageIndex; index++) {
+    if (items[index] === undefined) {
+      break;
+    } // Todo only change the value of it not delete it from the DOM
+
+
+    var worldItem = document.getElementById("".concat(index, "-world-item"));
+    worldItem.parentNode.removeChild(worldItem);
+  }
+};
+
+var getRowContainerElement = function getRowContainerElement() {
+  var rowContainer1 = document.getElementById("rowId1");
+  var rowContainer2 = document.getElementById("rowId2");
+  return {
+    rowContainer1: rowContainer1,
+    rowContainer2: rowContainer2
+  };
+};
+
+var bottomLayout = function bottomLayout(worldMenu, items, pageIndex) {
+  var bottomContainer = (0, _createRowContainer.default)();
+  var leftContainer = (0, _createRowContainer.default)();
+  var rightContainer = (0, _createRowContainer.default)();
+  var nextBtn = (0, _createButton.default)("Next", "next-btn", function () {
+    if (pageIndex + 8 < items.length) {
+      removeDisplayItem(pageIndex, items);
+      pageIndex += 8;
+
+      var _getRowContainerEleme = getRowContainerElement(),
+          rowContainer1 = _getRowContainerEleme.rowContainer1,
+          rowContainer2 = _getRowContainerEleme.rowContainer2;
+
+      displayMenuItem(rowContainer1, rowContainer2, items, pageIndex);
+    }
+  });
+  var prevBtn = (0, _createButton.default)("prev", "prev-btn", function () {
+    if (pageIndex !== 0) {
+      removeDisplayItem(pageIndex, items);
+      pageIndex -= 8;
+
+      var _getRowContainerEleme2 = getRowContainerElement(),
+          rowContainer1 = _getRowContainerEleme2.rowContainer1,
+          rowContainer2 = _getRowContainerEleme2.rowContainer2;
+
+      displayMenuItem(rowContainer1, rowContainer2, items, pageIndex);
+    }
+  });
+  leftContainer.appendChild(prevBtn);
+  leftContainer.appendChild(nextBtn);
+  var editBtn = (0, _createButton.default)("edit", "edit-btn", function () {
+    console.log("I am a edit button");
+  });
+  var createdBtn = (0, _createButton.default)("create", "create-btn", function () {
+    console.log("I am a create button");
+  });
+  rightContainer.appendChild(editBtn);
+  rightContainer.appendChild(createdBtn);
+  bottomContainer.appendChild(leftContainer);
+  bottomContainer.appendChild(rightContainer);
+  worldMenu.appendChild(bottomContainer);
+};
+},{"../../constant/cameraIdConst.js":"constant/cameraIdConst.js","../../constant/menu.js":"constant/menu.js","../../tools/getElementPosition.js":"tools/getElementPosition.js","./subComponent/createWorldMenuLayout.js":"component/worldMenu/subComponent/createWorldMenuLayout.js","./subComponent/createNewItem.js":"component/worldMenu/subComponent/createNewItem.js","./subComponent/createRowContainer.js":"component/worldMenu/subComponent/createRowContainer.js","./subComponent/createButton.js":"component/worldMenu/subComponent/createButton.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -543,5 +611,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","component/menu.js"], null)
-//# sourceMappingURL=/menu.094279f7.js.map
+},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","component/worldMenu/index.js"], null)
+//# sourceMappingURL=/worldMenu.61445aff.js.map

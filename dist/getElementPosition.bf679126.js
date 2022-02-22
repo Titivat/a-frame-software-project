@@ -117,110 +117,32 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"constant/cameraIdConst.js":[function(require,module,exports) {
+})({"tools/getElementPosition.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var CAM_VAL = {
-  CAMERA_RIG: "rig",
-  CAMERA: "camera",
-  CURSOR: "cursor"
+
+var getElementPosition = function getElementPosition(elementId) {
+  var value = document.getElementById(elementId);
+
+  var _value$getAttribute = value.getAttribute("position"),
+      x = _value$getAttribute.x,
+      y = _value$getAttribute.y,
+      z = _value$getAttribute.z;
+
+  return {
+    xPos: x,
+    yPos: y,
+    zPos: z
+  };
 };
-var _default = CAM_VAL;
+
+var _default = getElementPosition;
 exports.default = _default;
-},{}],"action/dragAndDrop.js":[function(require,module,exports) {
-"use strict";
-
-var _cameraIdConst = _interopRequireDefault(require("../constant/cameraIdConst.js"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-AFRAME.registerSystem("track-cursor", {
-  init: function init() {
-    this.el.setAttribute("cursor", {
-      rayOrigin: "mouse"
-    });
-  }
-});
-AFRAME.registerComponent("track-cursor", {
-  init: function init() {
-    var _this = this;
-
-    this.el.addEventListener("mousedown", function (e) {
-      if (_this.el.is("cursor-hovered")) {
-        _this.el.sceneEl.camera.el.setAttribute("look-controls", {
-          enabled: false
-        });
-
-        _this.el.addState("dragging");
-      }
-    });
-    this.el.addEventListener("mouseup", function (e) {
-      console.log(e); // position, rotation, scale, object
-
-      if (_this.el.is("dragging")) {
-        _this.el.sceneEl.camera.el.setAttribute("look-controls", {
-          enabled: true
-        });
-
-        _this.el.removeState("dragging");
-      }
-
-      _this.el.emit("update_item", _this.el);
-    });
-  }
-});
-AFRAME.registerComponent("dragndrop", {
-  dependencies: ["track-cursor"],
-  init: function init() {
-    var _this2 = this;
-
-    this.range = 0;
-    this.dist = 0;
-    this.acc = 0.0;
-    this.el.addEventListener("stateadded", function (e) {
-      if (e.detail == "dragging") {
-        _this2.range = 0;
-        _this2.dist = _this2.el.object3D.position.clone().sub(_this2.el.sceneEl.camera.el.object3D.position).length();
-      }
-    });
-    this.direction = new AFRAME.THREE.Vector3();
-    this.target = new AFRAME.THREE.Vector3();
-    document.addEventListener("wheel", function (e) {
-      if (e.deltaY < 0) {
-        _this2.range += 0.1;
-      } else {
-        _this2.range -= 0.1;
-      }
-    });
-  },
-  updateDirection: function updateDirection() {
-    this.direction.copy(this.el.sceneEl.getAttribute("raycaster").direction);
-  },
-  updateTarget: function updateTarget() {
-    var camera = this.el.sceneEl.camera.el;
-    var height = new THREE.Vector3(0, 1.6, 0);
-    this.target.copy(camera.object3D.position.clone().add(height).add(this.direction.clone().multiplyScalar(this.dist + this.range)));
-  },
-  tick: function tick(time, timeDelta) {
-    if (this.el.is("dragging")) {
-      this.acc += timeDelta;
-
-      if (this.acc > 200) {
-        this.el.emit("update_item", this.el);
-        this.acc = 0.0;
-      }
-
-      this.updateDirection();
-      this.updateTarget();
-      this.el.object3D.position.copy(this.target);
-    }
-  }
-});
-},{"../constant/cameraIdConst.js":"constant/cameraIdConst.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -424,5 +346,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","action/dragAndDrop.js"], null)
-//# sourceMappingURL=/dragAndDrop.b1a60345.js.map
+},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","tools/getElementPosition.js"], null)
+//# sourceMappingURL=/getElementPosition.bf679126.js.map

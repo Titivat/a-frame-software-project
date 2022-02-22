@@ -125,9 +125,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var CAM_VAL = {
-  OUTSIDE_CIRCLE: "#cam-rig",
-  MIDDLE_CIRCLE: "#camera",
-  CURSOR: "#cursor"
+  CAMERA_RIG: "rig",
+  CAMERA: "camera",
+  CURSOR: "cursor"
 };
 var _default = CAM_VAL;
 exports.default = _default;
@@ -160,26 +160,25 @@ floor.setAttribute("src", "#ground"); // sky
 var upperPart = document.createElement("a-sky");
 upperPart.setAttribute("src", "#sky");
 upperPart.setAttribute("rotation", "0 64 0"); // camera
-
-var camRig = document.createElement("a-entity");
-camRig.setAttribute("id", _cameraIdConst.default.OUTSIDE_CIRCLE);
-var insideCamRig = document.createElement("a-entity");
-insideCamRig.setAttribute("id", _cameraIdConst.default.MIDDLE_CIRCLE);
-insideCamRig.setAttribute("look-controls", "");
-insideCamRig.setAttribute("wasd-controls", "");
-insideCamRig.setAttribute("camera", "true");
-insideCamRig.setAttribute("position", "0 1.7 0");
-var cursor = document.createElement("a-cursor");
-cursor.setAttribute("id", _cameraIdConst.default.CURSOR); // insideCamRig.appendChild(cursor);
-
-camRig.appendChild(insideCamRig); // add to screen
+// const camRig = document.createElement("a-entity");
+// camRig.setAttribute("id", CAM.CAMERA_RIG);
+// const camera = document.createElement("a-entity");
+// camera.setAttribute("id", CAM.CAMERA);
+// camera.setAttribute("look-controls", "");
+// camera.setAttribute("wasd-controls", "");
+// camera.setAttribute("camera", "true");
+// camera.setAttribute("position", "0 1.7 0");
+// const cursor = document.createElement("a-cursor");
+// cursor.setAttribute("id", CAM.CURSOR);
+// camera.appendChild(cursor);
+// camRig.appendChild(camera);
+// add to screen
 
 scene.appendChild(leftHand);
-scene.appendChild(rightHand); // scene.appendChild(floor);
-// scene.appendChild(upperPart);
-
-scene.appendChild(camRig);
-},{"../constant/cameraIdConst.js":"constant/cameraIdConst.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+scene.appendChild(rightHand);
+scene.appendChild(floor); // scene.appendChild(upperPart);
+// s
+},{"../constant/cameraIdConst.js":"constant/cameraIdConst.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -207,7 +206,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57500" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51602" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -383,5 +382,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","component/environment.js"], null)
+},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","component/environment.js"], null)
 //# sourceMappingURL=/environment.db3ba2f4.js.map

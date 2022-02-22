@@ -117,110 +117,182 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"constant/cameraIdConst.js":[function(require,module,exports) {
-"use strict";
+})({"system/cyber-ws.js":[function(require,module,exports) {
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var CAM_VAL = {
-  CAMERA_RIG: "rig",
-  CAMERA: "camera",
-  CURSOR: "cursor"
-};
-var _default = CAM_VAL;
-exports.default = _default;
-},{}],"action/dragAndDrop.js":[function(require,module,exports) {
-"use strict";
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-var _cameraIdConst = _interopRequireDefault(require("../constant/cameraIdConst.js"));
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-AFRAME.registerSystem("track-cursor", {
-  init: function init() {
-    this.el.setAttribute("cursor", {
-      rayOrigin: "mouse"
-    });
-  }
-});
-AFRAME.registerComponent("track-cursor", {
+AFRAME.registerSystem("cyber-ws", {
+  // Initial state.
+  schema: {
+    host: {
+      type: "string",
+      default: "ws://localhost:2077/ws/system/"
+    }
+  },
   init: function init() {
     var _this = this;
 
-    this.el.addEventListener("mousedown", function (e) {
-      if (_this.el.is("cursor-hovered")) {
-        _this.el.sceneEl.camera.el.setAttribute("look-controls", {
-          enabled: false
-        });
+    var sceneEl = this.el;
+    var host = this.data.host;
+    console.log("START CONNECTION");
+    sceneEl.emit("connectionStarted", {
+      host: host
+    }); // UPDATE TAG OF DEVICE
 
-        _this.el.addState("dragging");
-      }
+    this.el.addEventListener("set_tag", function (e) {
+      var data = {
+        action: "set_device_tag",
+        data: e.detail
+      };
+
+      _this.ws.send(JSON.stringify(data));
     });
-    this.el.addEventListener("mouseup", function (e) {
-      console.log(e); // position, rotation, scale, object
+    this.el.addEventListener("update_item", function (e) {
+      console.log("UPDATE");
+      var toUpdate = e.target;
+      console.log(toUpdate.components);
 
-      if (_this.el.is("dragging")) {
-        _this.el.sceneEl.camera.el.setAttribute("look-controls", {
-          enabled: true
-        });
-
-        _this.el.removeState("dragging");
+      if (toUpdate.components.geometry) {
+        var data = {
+          action: "update_item",
+          data: {
+            name: toUpdate.id,
+            type: toUpdate.components.geometry.data.primitive,
+            position: AFRAME.utils.coordinates.stringify(toUpdate.object3D.position),
+            rotation: AFRAME.utils.coordinates.stringify(toUpdate.object3D.rotation),
+            scale: AFRAME.utils.coordinates.stringify(toUpdate.object3D.scale),
+            properties: [{
+              name: "height",
+              value: toUpdate.components.geometry.data.height
+            }, {
+              name: "width",
+              value: toUpdate.components.geometry.data.width
+            }, {
+              name: "color",
+              value: toUpdate.components.material.data.color
+            }]
+          }
+        };
+        console.log(data);
+        this.ws.send(JSON.stringify(data));
       }
-
-      _this.el.emit("update_item", _this.el);
-    });
-  }
-});
-AFRAME.registerComponent("dragndrop", {
-  dependencies: ["track-cursor"],
-  init: function init() {
-    var _this2 = this;
-
-    this.range = 0;
-    this.dist = 0;
-    this.acc = 0.0;
-    this.el.addEventListener("stateadded", function (e) {
-      if (e.detail == "dragging") {
-        _this2.range = 0;
-        _this2.dist = _this2.el.object3D.position.clone().sub(_this2.el.sceneEl.camera.el.object3D.position).length();
-      }
-    });
-    this.direction = new AFRAME.THREE.Vector3();
-    this.target = new AFRAME.THREE.Vector3();
-    document.addEventListener("wheel", function (e) {
-      if (e.deltaY < 0) {
-        _this2.range += 0.1;
-      } else {
-        _this2.range -= 0.1;
-      }
-    });
+    }.bind(this));
+    this.el.addEventListener("create_item", function (e) {
+      console.log("CREATE");
+      var toCreate = e.detail;
+      var data = {
+        action: "create_item",
+        data: toCreate
+      };
+      console.log(data);
+      this.ws.send(JSON.stringify(data));
+    }.bind(this));
+    this.connect();
   },
-  updateDirection: function updateDirection() {
-    this.direction.copy(this.el.sceneEl.getAttribute("raycaster").direction);
-  },
-  updateTarget: function updateTarget() {
-    var camera = this.el.sceneEl.camera.el;
-    var height = new THREE.Vector3(0, 1.6, 0);
-    this.target.copy(camera.object3D.position.clone().add(height).add(this.direction.clone().multiplyScalar(this.dist + this.range)));
-  },
-  tick: function tick(time, timeDelta) {
-    if (this.el.is("dragging")) {
-      this.acc += timeDelta;
-
-      if (this.acc > 200) {
-        this.el.emit("update_item", this.el);
-        this.acc = 0.0;
-      }
-
-      this.updateDirection();
-      this.updateTarget();
-      this.el.object3D.position.copy(this.target);
+  connect: function (_connect) {
+    function connect() {
+      return _connect.apply(this, arguments);
     }
-  }
+
+    connect.toString = function () {
+      return _connect.toString();
+    };
+
+    return connect;
+  }(function () {
+    this.ws = new WebSocket(host);
+
+    this.ws.onopen = function () {
+      var data = JSON.stringify({
+        action: "init_world",
+        data: "CONNECT ME BITCH"
+      });
+      this.ws.send(data);
+    }.bind(this);
+
+    this.ws.onmessage = function (evt) {
+      var received_msg = evt.data;
+      var incomingData = JSON.parse(received_msg);
+      console.log("INCOMING!");
+      console.log(incomingData);
+
+      if (incomingData.type === "house_snapshot") {
+        var data = incomingData.data;
+        console.log(data);
+
+        var _iterator = _createForOfIteratorHelper(data),
+            _step;
+
+        try {
+          for (_iterator.s(); !(_step = _iterator.n()).done;) {
+            var item = _step.value;
+            console.log(item);
+            var element = document.getElementById(item.meta.nickname);
+
+            if (!element) {
+              var newItem = document.createElement("a-".concat(item.meta.avatar));
+              newItem.setAttribute("dragndrop", "");
+              newItem.setAttribute("response-type", "arraybuffer");
+              newItem.setAttribute("crossorigin", "anonymous");
+              newItem.setAttribute("id", item.meta.nickname);
+              newItem.setAttribute("rotation", AFRAME.utils.coordinates.stringify(item.rotation));
+              newItem.setAttribute("position", AFRAME.utils.coordinates.stringify(item.position));
+              newItem.setAttribute("scale", AFRAME.utils.coordinates.stringify(item.scale));
+
+              var _iterator2 = _createForOfIteratorHelper(item.properties),
+                  _step2;
+
+              try {
+                for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+                  var property = _step2.value;
+                  newItem.setAttribute(property.name, property.value);
+                }
+              } catch (err) {
+                _iterator2.e(err);
+              } finally {
+                _iterator2.f();
+              }
+
+              sceneEl.appendChild(newItem);
+            } else {
+              element.setAttribute("rotation", AFRAME.utils.coordinates.stringify(item.rotation));
+              element.setAttribute("position", AFRAME.utils.coordinates.stringify(item.position));
+              element.setAttribute("scale", AFRAME.utils.coordinates.stringify(item.scale));
+
+              var _iterator3 = _createForOfIteratorHelper(item.properties),
+                  _step3;
+
+              try {
+                for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+                  var _property = _step3.value;
+                  element.setAttribute(_property.name, _property.value);
+                }
+              } catch (err) {
+                _iterator3.e(err);
+              } finally {
+                _iterator3.f();
+              }
+            }
+          }
+        } catch (err) {
+          _iterator.e(err);
+        } finally {
+          _iterator.f();
+        }
+      }
+    };
+
+    this.ws.onclose = function () {
+      setTimeout(function () {
+        connect();
+      }, 250);
+    };
+  })
 });
-},{"../constant/cameraIdConst.js":"constant/cameraIdConst.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -424,5 +496,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","action/dragAndDrop.js"], null)
-//# sourceMappingURL=/dragAndDrop.b1a60345.js.map
+},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","system/cyber-ws.js"], null)
+//# sourceMappingURL=/cyber-ws.6ba196d4.js.map

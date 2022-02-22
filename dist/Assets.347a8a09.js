@@ -118,22 +118,13 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"Assets/index.js":[function(require,module,exports) {
-var texture = "<img id=\"texture\" src=\"./img/texture.png\" />";
-var ground = "<img id=\"ground\" src=\"./img/ground.jpg\" />";
-var sky = "<img id=\"sky\" src=\"./img/sky.jpg\" />";
-var box = "<img id=\"box\" src=\"../img/Box.PNG\" />";
-var circle = "<img id=\"circle\" src=\"../img/Circle.PNG\" />";
-var cylinder = "<img id=\"cylinder\" src=\"../img/Cylinder.PNG\" />";
-var dodecahedron = "<img id=\"dodecahedron\" src=\"../img/dodecahedron.PNG\" />";
-var sphere = "<img id=\"sphere\" src=\"../img/sphere.PNG\" />";
-var triangle = "<img id=\"triangle\" src=\"../img/triangle.PNG\" />";
-var assetName = ['<img id="texture" src="./img/texture.png" />', "<img id=\"ground\" src=\"./img/ground.jpg\" />", "<img id=\"sky\" src=\"./img/sky.jpg\" />", "<img id=\"box\" src=\"../img/Box.PNG\" />", "<img id=\"circle\" src=\"../img/Circle.PNG\" />", "<img id=\"cylinder\" src=\"../img/Cylinder.PNG\" />", "<img id=\"dodecahedron\" src=\"../img/dodecahedron.PNG\" />", "<img id=\"sphere\" src=\"../img/sphere.PNG\" />", "<img id=\"triangle\" src=\"../img/triangle.PNG\" />"];
+var assetName = ['<img id="texture" src="./img/texture.png" />', "<img id=\"ground\" src=\"./img/ground.jpg\" />", "<img id=\"sky\" src=\"./img/sky.jpg\" />", "<img id=\"box_img\" src=\"../img/Box.PNG\" />", "<img id=\"circle_img\" src=\"../img/Circle.PNG\" />", "<img id=\"cylinder_img\" src=\"../img/Cylinder.PNG\" />", "<img id=\"dodecahedron_img\" src=\"../img/dodecahedron.PNG\" />", "<img id=\"sphere_img\" src=\"../img/sphere.PNG\" />", "<img id=\"triangle_img\" src=\"../img/triangle.PNG\" />"];
 var assetComponent = assetName.map(function (item) {
   return item + " ";
 }); // const assetComponent = `${texture} ${ground} ${sky} ${box}`;
 
 document.getElementById("assets").innerHTML = assetComponent;
-},{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -161,7 +152,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57500" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51602" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -337,5 +328,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","Assets/index.js"], null)
+},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","Assets/index.js"], null)
 //# sourceMappingURL=/Assets.347a8a09.js.map

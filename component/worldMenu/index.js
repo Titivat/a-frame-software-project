@@ -1,10 +1,13 @@
 import CAM_VAL from "../../constant/cameraIdConst.js";
 import MENU_VAL from "../../constant/menu.js";
 import getElementPos from "../../tools/getElementPosition.js";
-import createWorldMenuLayout from "./createWorldMenuLayout.js";
-import createNewItem from "./createNewItem.js";
-import createRowContainer from "./createRowContainer.js";
-import createButton from "./createButton.js";
+import createWorldMenuLayout from "./subComponent/createWorldMenuLayout.js";
+import createRowContainer from "./subComponent/createRowContainer.js";
+import createButton from "./subComponent/createButton.js";
+import displayMenuItem from "./subComponent/displayMenuItem.js";
+import removeDisplayItem from "./subComponent/removeDisplayItem.js";
+import createNewItem from "./subComponent/createNewItem.js";
+import WORLD_ITEM from "../../constant/worldItem.js";
 
 let isMenuOpen = false;
 document.addEventListener("keydown", function (e) {
@@ -14,32 +17,17 @@ document.addEventListener("keydown", function (e) {
 	}
 });
 
-const items = [
-	"1",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"7",
-	"8",
-	"9",
-	"10",
-	"11",
-	"12",
-	"13",
-	"14",
-	"15",
-	"16",
-	"17",
-	"18",
-	"19",
-	"20",
-];
-
+// constance item for testing
+const items = WORLD_ITEM.items;
+// this should have been implemented as class, bc the value would not change as expected
+// so I put in local storage so that the value is the same at every place
+localStorage.setItem("items", JSON.stringify({ items: items }));
+localStorage.setItem("isEditable", true);
 const worldPopUpMenu = (isMenuOpen) => {
 	const worldMenuName = MENU_VAL.world_id;
 	if (isMenuOpen) {
+		// init constance
+		// paging
 		let pageIndex = 0;
 		const { xPos, yPos, zPos } = getElementPos(CAM_VAL.CAMERA);
 
@@ -56,7 +44,7 @@ const worldPopUpMenu = (isMenuOpen) => {
 		displayMenuItem(rowContainer1, rowContainer2, items, pageIndex);
 
 		// changing page of the item (all the display is here after click next or prev)
-		bottomLayout(worldMenu, items, pageIndex);
+		bottomLayout(worldMenu, pageIndex);
 
 		// set position for the menu
 		worldMenu.setAttribute("position", `${xPos} ${yPos + 3} ${zPos - 4.5}`);
@@ -67,64 +55,121 @@ const worldPopUpMenu = (isMenuOpen) => {
 	}
 };
 
-// adding Item to the menu
-const displayMenuItem = (rowContainer1, rowContainer2, items, pageIndex) => {
-	for (let index = 0 + pageIndex; index < 8 + pageIndex; index++) {
-		if (items[index] === undefined) {
-			break;
-		}
-
-		const newItem = createNewItem(items[index], `${index}-world-item`, () => {
-			console.log("I am a shape of " + items[index]);
-		});
-
-		index < 4 + pageIndex
-			? rowContainer1.appendChild(newItem)
-			: rowContainer2.appendChild(newItem);
-	}
-};
-
-const removeDisplayItem = (pageIndex, items) => {
-	for (let index = 0 + pageIndex; index < 8 + pageIndex; index++) {
-		if (items[index] === undefined) {
-			break;
-		}
-		// Todo only change the value of it not delete it from the DOM
-		const worldItem = document.getElementById(`${index}-world-item`);
-		worldItem.parentNode.removeChild(worldItem);
-	}
-};
-
 const getRowContainerElement = () => {
 	const rowContainer1 = document.getElementById("rowId1");
 	const rowContainer2 = document.getElementById("rowId2");
 	return { rowContainer1, rowContainer2 };
 };
 
-const bottomLayout = (worldMenu, items, pageIndex) => {
+const displayMenuItemWithDelete = (
+	rowContainer1,
+	rowContainer2,
+	items,
+	pageIndex
+) => {
+	for (let index = 0 + pageIndex; index < 8 + pageIndex; index++) {
+		if (items[index] === undefined) {
+			break;
+		}
+
+		const newItem = createNewItem(
+			items[index],
+			`${index}-world-item`,
+			"label",
+			() => {
+				console.log("I am a shape of " + items[index]);
+			}
+		);
+		const deleteBtn = createNewItem(
+			"X",
+			`${index}-world-item-delete`,
+			"normal",
+			() => {
+				items = items.filter((item) => item != items[index]);
+				removeDisplayItem(pageIndex, items, "world-item-delete");
+				removeDisplayItem(pageIndex, items, "world-item");
+				const { rowContainer1, rowContainer2 } = getRowContainerElement();
+				displayMenuItem(rowContainer1, rowContainer2, items, pageIndex);
+				localStorage.setItem("items", JSON.stringify({ items: items }));
+			}
+		);
+		deleteBtn.setAttribute("width", "0.25");
+		deleteBtn.setAttribute("height", "0.2");
+		deleteBtn.setAttribute("font-size", "0.13");
+		deleteBtn.setAttribute("position", "0 1 1");
+
+		// for new row
+		if (index < 4 + pageIndex) {
+			rowContainer1.appendChild(newItem);
+			rowContainer1.appendChild(deleteBtn);
+		} else {
+			rowContainer2.appendChild(newItem);
+			rowContainer2.appendChild(deleteBtn);
+		}
+	}
+};
+
+const bottomLayout = (worldMenu, pageIndex) => {
 	const bottomContainer = createRowContainer();
 	const leftContainer = createRowContainer();
-	const nextButton = createButton("Next", "next-btn", () => {
-		if (pageIndex + 8 < items.length) {
-			removeDisplayItem(pageIndex, items);
+	const rightContainer = createRowContainer();
+
+	const nextBtn = createButton("Next", "next-btn", () => {
+		const isEditable = localStorage.getItem("isEditable");
+		if (pageIndex + 8 < items.length && isEditable) {
+			let items = JSON.parse(localStorage.getItem("items"));
+			removeDisplayItem(pageIndex, items.items, "world-item");
 			pageIndex += 8;
 			const { rowContainer1, rowContainer2 } = getRowContainerElement();
-			displayMenuItem(rowContainer1, rowContainer2, items, pageIndex);
+			displayMenuItem(rowContainer1, rowContainer2, items.items, pageIndex);
 		}
 	});
 
-	const prevButton = createButton("prev", "prev-btn", () => {
-		if (pageIndex !== 0) {
-			removeDisplayItem(pageIndex, items);
+	const prevBtn = createButton("prev", "prev-btn", () => {
+		const isEditable = localStorage.getItem("isEditable");
+		if (pageIndex !== 0 && isEditable) {
+			let items = JSON.parse(localStorage.getItem("items"));
+			removeDisplayItem(pageIndex, items.items, "world-item");
 			pageIndex -= 8;
 			const { rowContainer1, rowContainer2 } = getRowContainerElement();
-			displayMenuItem(rowContainer1, rowContainer2, items, pageIndex);
+			displayMenuItem(rowContainer1, rowContainer2, items.items, pageIndex);
 		}
 	});
 
-	leftContainer.appendChild(prevButton);
-	leftContainer.appendChild(nextButton);
+	leftContainer.appendChild(prevBtn);
+	leftContainer.appendChild(nextBtn);
+
+	const editBtn = createButton("edit", "edit-btn", () => {
+		const items = JSON.parse(localStorage.getItem("items"));
+		const isEditable = localStorage.getItem("isEditable");
+		if (isEditable) {
+			removeDisplayItem(pageIndex, items.items, "world-item");
+			const { rowContainer1, rowContainer2 } = getRowContainerElement();
+			displayMenuItemWithDelete(
+				rowContainer1,
+				rowContainer2,
+				items.items,
+				pageIndex
+			);
+			localStorage.setItem("isEditable", false);
+		} else {
+			removeDisplayItem(pageIndex, items.items, "world-item-delete");
+			localStorage.setItem("isEditable", true);
+		}
+	});
+
+	// todo create a new object
+	// it is a log for now
+	const createdBtn = createButton("create", "create-btn", () => {
+		console.log("I am a create button");
+		const value = JSON.parse(localStorage.getItem("items"));
+		console.log(value.items);
+	});
+
+	rightContainer.appendChild(editBtn);
+	rightContainer.appendChild(createdBtn);
 
 	bottomContainer.appendChild(leftContainer);
+	bottomContainer.appendChild(rightContainer);
 	worldMenu.appendChild(bottomContainer);
 };

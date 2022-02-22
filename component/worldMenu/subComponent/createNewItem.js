@@ -1,6 +1,16 @@
-const createNewItem = (name, id, fun) => {
-	const newItem = document.createElement("a-gui-icon-label-button");
-	newItem.setAttribute("id",  id);
+const createNewItem = (name, id, buttonType, fun) => {
+	switch (buttonType) {
+		case "label":
+			buttonType = "a-gui-icon-label-button";
+			break;
+		case "normal":
+			buttonType = "a-gui-button";
+			break;
+		default:
+			buttonType = "a-gui-icon-label-button";
+	}
+	const newItem = document.createElement(buttonType);
+	newItem.setAttribute("id", id);
 	newItem.setAttribute("margin", "0 0 0.1 0");
 	newItem.setAttribute("value", name);
 	newItem.setAttribute("width", "2.5");
