@@ -48,12 +48,35 @@ const worldPopUpMenu = (isMenuOpen) => {
 		bottomLayout(worldMenu, pageIndex);
 
 		// set position for the menu
-		worldMenu.setAttribute("position", `${xPos} ${yPos + 3} ${zPos - 4.5}`);
+		worldMenu.setAttribute("position", `${xPos} ${yPos + 3} ${zPos - 5}`);
 		scene.appendChild(worldMenu);
 	} else if (!isMenuOpen) {
 		const removeMenu = document.getElementById(worldMenuName);
 		removeMenu.parentNode.removeChild(removeMenu);
 	}
+};
+
+const createEditMenu = () => {
+	const editMenu = document.createElement("a-gui-flex-container");
+	editMenu.setAttribute("id", "editMenu");
+	editMenu.setAttribute("flex-direction", "column");
+	editMenu.setAttribute("width", "5");
+	editMenu.setAttribute("height", "2.5");
+	editMenu.setAttribute("justify-content", "center");
+	editMenu.setAttribute("align-items", "normal");
+	editMenu.setAttribute("component-padding", "0.1");
+	editMenu.setAttribute("opacity", "0.7");
+	return editMenu;
+};
+
+const createLabelText = () => {
+	const label = document.createElement("a-gui-label");
+	label.setAttribute("width", "2.5");
+	label.setAttribute("height", "0.75");
+	label.setAttribute("value", "7");
+	label.setAttribute("font-size", "0.35");
+	label.setAttribute("line-height", "0.8");
+	return label;
 };
 
 const bottomLayout = (worldMenu, pageIndex) => {
@@ -63,23 +86,23 @@ const bottomLayout = (worldMenu, pageIndex) => {
 
 	const nextBtn = createButton("Next", "next-btn", () => {
 		const isEditable = localStorage.getItem("isEditable");
+		let { items } = JSON.parse(localStorage.getItem("items"));
 		if (pageIndex + 8 < items.length && isEditable) {
-			let items = JSON.parse(localStorage.getItem("items"));
-			removeDisplayItem(pageIndex, items.items, "world-item");
+			removeDisplayItem(pageIndex, items, "world-item");
 			pageIndex += 8;
 			const { rowContainer1, rowContainer2 } = getRowContainerElement();
-			displayMenuItem(rowContainer1, rowContainer2, items.items, pageIndex);
+			displayMenuItem(rowContainer1, rowContainer2, items, pageIndex);
 		}
 	});
 
 	const prevBtn = createButton("prev", "prev-btn", () => {
 		const isEditable = localStorage.getItem("isEditable");
 		if (pageIndex !== 0 && isEditable) {
-			let items = JSON.parse(localStorage.getItem("items"));
-			removeDisplayItem(pageIndex, items.items, "world-item");
+			let { items } = JSON.parse(localStorage.getItem("items"));
+			removeDisplayItem(pageIndex, items, "world-item");
 			pageIndex -= 8;
 			const { rowContainer1, rowContainer2 } = getRowContainerElement();
-			displayMenuItem(rowContainer1, rowContainer2, items.items, pageIndex);
+			displayMenuItem(rowContainer1, rowContainer2, items, pageIndex);
 		}
 	});
 
@@ -87,20 +110,15 @@ const bottomLayout = (worldMenu, pageIndex) => {
 	leftContainer.appendChild(nextBtn);
 
 	const editBtn = createButton("edit", "edit-btn", () => {
-		const items = JSON.parse(localStorage.getItem("items"));
+		const { items } = JSON.parse(localStorage.getItem("items"));
 		const isEditable = localStorage.getItem("isEditable");
 		if (isEditable) {
-			removeDisplayItem(pageIndex, items.items, "world-item");
+			removeDisplayItem(pageIndex, items, "world-item");
 			const { rowContainer1, rowContainer2 } = getRowContainerElement();
-			displayMenuItemWithDelete(
-				rowContainer1,
-				rowContainer2,
-				items.items,
-				pageIndex
-			);
+			displayMenuItemWithDelete(rowContainer1, rowContainer2, items, pageIndex);
 			localStorage.setItem("isEditable", false);
 		} else {
-			removeDisplayItem(pageIndex, items.items, "world-item-delete");
+			removeDisplayItem(pageIndex, items, "world-item-delete");
 			localStorage.setItem("isEditable", true);
 		}
 	});
@@ -109,8 +127,36 @@ const bottomLayout = (worldMenu, pageIndex) => {
 	// it is a log for now
 	const createdBtn = createButton("create", "create-btn", () => {
 		console.log("I am a create button");
-		const value = JSON.parse(localStorage.getItem("items"));
-		console.log(value.items);
+		const { xPos, yPos, zPos } = getElementPos(CAM_VAL.CAMERA);
+		const newCreateMenu = createEditMenu();
+		const createBtnTopLayout = createRowContainer("createBtnTopLayout");
+		const createBtnButtonLayout = createRowContainer("createBtnBottomLayout");
+
+		// top part of the create menu
+		const label = createLabelText();
+		createBtnTopLayout.appendChild(label);
+
+		// bottom part of the create menu
+		const confirmBtn = createButton("confirm", "createConfirmBtn", () => {
+			// todo add the item in the list
+			console.log("I am confirm btn");
+			let { items } = JSON.parse(localStorage.getItem("items"));
+			const newWorldName = label.getAttribute("value");
+			items.push(newWorldName);
+			localStorage.setItem("items", JSON.stringify({ items: items }));
+		});
+		const cancelBtn = createButton("cancel", "cancelConfirmBtn", () => {
+			// todo delete the create menu
+			console.log("I am cancel btn");
+		});
+		createBtnButtonLayout.appendChild(confirmBtn);
+		createBtnButtonLayout.appendChild(cancelBtn);
+		newCreateMenu.setAttribute("position", `${xPos} ${yPos + 3} ${zPos - 4}`);
+		newCreateMenu.appendChild(createBtnTopLayout);
+		newCreateMenu.appendChild(createBtnButtonLayout);
+		scene.appendChild(newCreateMenu);
+
+		// to do create keyboard here
 	});
 
 	rightContainer.appendChild(editBtn);

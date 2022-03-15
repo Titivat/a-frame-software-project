@@ -14,22 +14,23 @@ const displayMenuItemWithDelete = (
 			break;
 		}
 
-		const newItem = createNewItem(
-			items[index],
-			`${index}-world-item`,
-			"label",
-			() => {
-				console.log("I am a shape of " + items[index]);
-			}
-		);
+		const { name } = items[index];
+		const newItem = createNewItem(name, `${index}-world-item`, "label", () => {
+			console.log("I am a shape of " + name);
+			console.log(`have an id of ${index}-world-item-delete`);
+			console.log(items);
+		});
+
 		const deleteBtn = createNewItem(
 			"X",
 			`${index}-world-item-delete`,
 			"normal",
 			() => {
-				items = items.filter((item) => item != items[index]);
+				// clear the board first before delete bc it would have one left over if delete later
 				removeDisplayItem(pageIndex, items, "world-item-delete");
 				removeDisplayItem(pageIndex, items, "world-item");
+				// delete item here
+				items = items.filter((item) => item.name != name);
 				const { rowContainer1, rowContainer2 } = getRowContainerElement();
 				displayMenuItem(rowContainer1, rowContainer2, items, pageIndex);
 				localStorage.setItem("items", JSON.stringify({ items: items }));
