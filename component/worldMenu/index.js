@@ -9,6 +9,8 @@ import removeDisplayItem from "./subComponent/removeDisplayItem.js";
 import WORLD_ITEM from "../../constant/worldItem.js";
 import getRowContainerElement from "./subComponent/getRowContainerElement.js";
 import displayMenuItemWithDelete from "./subComponent/displayMenuItemWithDelete.js";
+import createEditMenu from "./subComponent/createEditMenu.js";
+import createLabelText from "./subComponent/createLabelText.js";
 
 let isMenuOpen = false;
 document.addEventListener("keydown", function (e) {
@@ -56,27 +58,62 @@ const worldPopUpMenu = (isMenuOpen) => {
 	}
 };
 
-const createEditMenu = () => {
-	const editMenu = document.createElement("a-gui-flex-container");
-	editMenu.setAttribute("id", "editMenu");
-	editMenu.setAttribute("flex-direction", "column");
-	editMenu.setAttribute("width", "5");
-	editMenu.setAttribute("height", "2.5");
-	editMenu.setAttribute("justify-content", "center");
-	editMenu.setAttribute("align-items", "normal");
-	editMenu.setAttribute("component-padding", "0.1");
-	editMenu.setAttribute("opacity", "0.7");
-	return editMenu;
+const appendToLabel = (label, value) => {
+	const currentVal = label.getAttribute("value");
+	label.setAttribute("value", currentVal + value);
 };
 
-const createLabelText = () => {
-	const label = document.createElement("a-gui-label");
-	label.setAttribute("width", "2.5");
-	label.setAttribute("height", "0.75");
-	label.setAttribute("value", "7");
-	label.setAttribute("font-size", "0.35");
-	label.setAttribute("line-height", "0.8");
-	return label;
+const createKeyboardKeycap = (id, name, func) => {
+	const keycap = document.createElement("a-gui-button");
+	keycap.setAttribute("id", id);
+	keycap.setAttribute("width", "0.5");
+	keycap.setAttribute("height", "0.5");
+	keycap.setAttribute("value", name);
+	keycap.setAttribute("margin", "0 0.1 0.2 0");
+	keycap.addEventListener("click", func);
+	return keycap;
+};
+
+const createKeyboardRow = (keyboardWords, label) => {
+	const rowContainer = createRowContainer();
+	rowContainer.setAttribute("height", "0.5");
+	keyboardWords.forEach((key) => {
+		const newKey = createKeyboardKeycap(`${key}-key`, key, () =>
+			appendToLabel(label, key)
+		);
+		rowContainer.appendChild(newKey);
+	});
+	return rowContainer;
+};
+
+const createKeyboardLayout = (id) => {
+	const keyBoardContainer = document.createElement("a-gui-flex-container");
+	keyBoardContainer.setAttribute("id", id);
+	keyBoardContainer.setAttribute("align-items", "middle");
+	keyBoardContainer.setAttribute("justify-content", "center");
+	keyBoardContainer.setAttribute("component-padding", "0.1");
+	keyBoardContainer.setAttribute("flex-direction", "column");
+	keyBoardContainer.setAttribute("opacity", "0.7");
+	keyBoardContainer.setAttribute("width", "5");
+	keyBoardContainer.setAttribute("height", "0");
+	keyBoardContainer.setAttribute("rotation", "-5 0 0");
+	return keyBoardContainer;
+};
+
+//create key board
+const createKeyboard = (label) => {
+	console.log("I am a keyboard");
+	const topKeys = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"];
+	const middleKeys = ["a", "s", "d", "f", "g", "h", "j", "k", "l"];
+	const bottomKeys = ["z", "x", "c", "v", "b", "n", "m"];
+	const keyBoardContainer = createKeyboardLayout("edit-keyboard");
+	const topRowKeys = createKeyboardRow(topKeys, label);
+	const middleRowKeys = createKeyboardRow(middleKeys, label);
+	const bottomRowKeys = createKeyboardRow(bottomKeys, label);
+	keyBoardContainer.appendChild(topRowKeys);
+	keyBoardContainer.appendChild(middleRowKeys);
+	keyBoardContainer.appendChild(bottomRowKeys);
+	return keyBoardContainer;
 };
 
 const bottomLayout = (worldMenu, pageIndex) => {
@@ -133,30 +170,37 @@ const bottomLayout = (worldMenu, pageIndex) => {
 		const createBtnButtonLayout = createRowContainer("createBtnBottomLayout");
 
 		// top part of the create menu
-		const label = createLabelText();
+		const label = createLabelText("");
 		createBtnTopLayout.appendChild(label);
 
 		// bottom part of the create menu
 		const confirmBtn = createButton("confirm", "createConfirmBtn", () => {
 			// todo add the item in the list
 			console.log("I am confirm btn");
-			let { items } = JSON.parse(localStorage.getItem("items"));
-			const newWorldName = label.getAttribute("value");
-			items.push(newWorldName);
-			localStorage.setItem("items", JSON.stringify({ items: items }));
+			// let { items } = JSON.parse(localStorage.getItem("items"));
+			// const newWorldName = label.getAttribute("value");
+			// items.push({ name: newWorldName });
+			// localStorage.setItem("items", JSON.stringify({ items: items }));
 		});
 		const cancelBtn = createButton("cancel", "cancelConfirmBtn", () => {
 			// todo delete the create menu
 			console.log("I am cancel btn");
+			const editMenu = document.getElementById(`editMenu`);
+			editMenu.parentNode.removeChild(editMenu);
+			const editMenuKeyboard = document.getElementById(`edit-keyboard`);
+			editMenuKeyboard.parentNode.removeChild(editMenuKeyboard);
 		});
 		createBtnButtonLayout.appendChild(confirmBtn);
 		createBtnButtonLayout.appendChild(cancelBtn);
-		newCreateMenu.setAttribute("position", `${xPos} ${yPos + 3} ${zPos - 4}`);
+		newCreateMenu.setAttribute("position", `${xPos} ${yPos + 3.5} ${zPos - 4}`);
 		newCreateMenu.appendChild(createBtnTopLayout);
 		newCreateMenu.appendChild(createBtnButtonLayout);
 		scene.appendChild(newCreateMenu);
 
 		// to do create keyboard here
+		const keyboard = createKeyboard(label);
+		keyboard.setAttribute("position", `${xPos} ${yPos + 1.2} ${zPos - 3.5}`);
+		scene.appendChild(keyboard);
 	});
 
 	rightContainer.appendChild(editBtn);
