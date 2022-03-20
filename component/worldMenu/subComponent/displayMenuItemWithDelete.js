@@ -17,8 +17,6 @@ const displayMenuItemWithDelete = (
 		const { name } = items[index];
 		const newItem = createNewItem(name, `${index}-world-item`, "label", () => {
 			console.log("I am a shape of " + name);
-			console.log(`have an id of ${index}-world-item-delete`);
-			console.log(items);
 		});
 
 		const deleteBtn = createNewItem(

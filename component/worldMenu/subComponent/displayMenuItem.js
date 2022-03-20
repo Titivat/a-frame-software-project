@@ -1,7 +1,6 @@
 import createNewItem from "./createNewItem.js";
 
 const displayMenuItem = (rowContainer1, rowContainer2, items, pageIndex) => {
-	console.log("I am from displayMenuItem");
 	for (let index = 0 + pageIndex; index < 8 + pageIndex; index++) {
 		// check for the end of list
 		if (items[index] === undefined) {
