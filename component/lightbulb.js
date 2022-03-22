@@ -7,8 +7,12 @@ lightBulb.setAttribute(
 );
 //lightBulb.setAttribute("dragndrop", "");
 lightBulb.setAttribute("lightbulb", "");
-lightBulb.setAttribute("position", "0 4 0");
-lightBulb.setAttribute("rotation", "180 0 0");
+lightBulb.setAttribute(
+	"light",
+	"type: point; intensity: 1; distance: 100; decay: 0"
+);
+lightBulb.setAttribute("position", "-1.4 4.11 1.6");
+lightBulb.setAttribute("rotation", "0 0 180");
 lightBulb.setAttribute("scale", "0.001 0.001 0.001");
 lightBulb.setAttribute("color", "#4CC3D9");
 scene.appendChild(lightBulb);
