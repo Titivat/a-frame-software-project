@@ -27,25 +27,25 @@ upperPart.setAttribute("src", "#sky");
 upperPart.setAttribute("rotation", "0 64 0");
 
 // camera
-const camRig = document.createElement("a-entity");
-camRig.setAttribute("id", CAM.OUTSIDE_CIRCLE);
+// const camRig = document.createElement("a-entity");
+// camRig.setAttribute("id", CAM.CAMERA_RIG);
 
-const insideCamRig = document.createElement("a-entity");
-insideCamRig.setAttribute("id", CAM.MIDDLE_CIRCLE);
-insideCamRig.setAttribute("look-controls", "");
-insideCamRig.setAttribute("wasd-controls", "");
-insideCamRig.setAttribute("camera", "true");
-insideCamRig.setAttribute("position", "0 1.7 0");
+// const camera = document.createElement("a-entity");
+// camera.setAttribute("id", CAM.CAMERA);
+// camera.setAttribute("look-controls", "");
+// camera.setAttribute("wasd-controls", "");
+// camera.setAttribute("camera", "true");
+// camera.setAttribute("position", "0 1.7 0");
 
-const cursor = document.createElement("a-cursor");s
-cursor.setAttribute("id", CAM.CURSOR);
+// const cursor = document.createElement("a-cursor");
+// cursor.setAttribute("id", CAM.CURSOR);
 
-// insideCamRig.appendChild(cursor);
-camRig.appendChild(insideCamRig);
+// camera.appendChild(cursor);
+// camRig.appendChild(camera);
 
 // add to screen
 scene.appendChild(leftHand);
 scene.appendChild(rightHand);
 scene.appendChild(floor);
 // scene.appendChild(upperPart);
-scene.appendChild(camRig);
+// s

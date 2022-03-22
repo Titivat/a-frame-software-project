@@ -1,1 +1,0 @@
-export const API_PATH_NAME = "https://reqres.in";

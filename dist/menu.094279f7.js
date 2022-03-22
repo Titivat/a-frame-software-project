@@ -125,9 +125,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var CAM_VAL = {
-  OUTSIDE_CIRCLE: "#cam-rig",
-  MIDDLE_CIRCLE: "#camera",
-  CURSOR: "#cursor"
+  CAMERA_RIG: "rig",
+  CAMERA: "camera",
+  CURSOR: "cursor"
 };
 var _default = CAM_VAL;
 exports.default = _default;
@@ -139,11 +139,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var MENU_VAL = {
-  id: "popup-menu"
+  id: "popup-menu",
+  world_id: "world_popup"
 };
 var _default = MENU_VAL;
 exports.default = _default;
-},{}],"Tool/getElementPosition.js":[function(require,module,exports) {
+},{}],"tools/getElementPosition.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -175,42 +176,44 @@ var _cameraIdConst = _interopRequireDefault(require("../constant/cameraIdConst.j
 
 var _menu = _interopRequireDefault(require("../constant/menu.js"));
 
-var _getElementPosition = _interopRequireDefault(require("../Tool/getElementPosition.js"));
+var _getElementPosition = _interopRequireDefault(require("../tools/getElementPosition.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var isMenuOpen = false;
+console.log("loading menu");
 var itemList = [{
-  img: "#box",
-  shape: "a-box"
+  img: "#box_img",
+  shape: "box"
 }, {
-  img: "#sphere",
-  shape: "a-sphere"
+  img: "#sphere_img",
+  shape: "sphere"
 }, {
-  img: "#cylinder",
-  shape: "a-cylinder"
+  img: "#cylinder_img",
+  shape: "cylinder"
 }, {
-  img: "#circle",
-  shape: "a-circle"
+  img: "#circle_img",
+  shape: "circle"
 }, {
-  img: "#triangle",
-  shape: "a-triangle"
+  img: "#triangle_img",
+  shape: "triangle"
 }, {
-  img: "#dodecahedron",
-  shape: "a-dodecahedron"
+  img: "#dodecahedron_img",
+  shape: "dodecahedron"
 }, {
-  img: "#box",
-  shape: "a-box"
+  img: "#box_img",
+  shape: "box"
 }, {
-  img: "#box",
-  shape: "a-box"
+  img: "#box_img",
+  shape: "box"
 }, {
-  img: "#box",
-  shape: "a-box"
+  img: "#box_img",
+  shape: "box"
 }];
-window.addEventListener("keydown", function (e) {
-  if (e.key === "Escape" || e.key === "Esc") {
+document.addEventListener("keydown", function (e) {
+  if (e.key === "M" || e.key === "m") {
     // Todo create a box front of the user
+    console.log("MENU BOOM");
     isMenuOpen = !isMenuOpen;
     popUpMenu(isMenuOpen);
   }
@@ -220,13 +223,13 @@ var popUpMenu = function popUpMenu(isMenuOpen) {
   var menuName = _menu.default.id;
 
   if (isMenuOpen) {
-    var _getElementPos = (0, _getElementPosition.default)(_cameraIdConst.default.MIDDLE_CIRCLE),
+    var _getElementPos = (0, _getElementPosition.default)(_cameraIdConst.default.CAMERA),
         xPos = _getElementPos.xPos,
         yPos = _getElementPos.yPos,
         zPos = _getElementPos.zPos;
 
     var menu = createMenu(menuName);
-    menu.setAttribute("position", "".concat(xPos, " ").concat(yPos, " ").concat(zPos - 4));
+    menu.setAttribute("position", "".concat(xPos, " ").concat(yPos + 3, " ").concat(zPos - 4));
     scene.appendChild(menu); // addClickAbleToMenuItems();
   } else if (!isMenuOpen) {
     //MENU_VAL.id
@@ -236,15 +239,15 @@ var popUpMenu = function popUpMenu(isMenuOpen) {
 };
 
 var createMenu = function createMenu(name) {
-  var _getElementPos2 = (0, _getElementPosition.default)(_cameraIdConst.default.MIDDLE_CIRCLE),
+  var _getElementPos2 = (0, _getElementPosition.default)(_cameraIdConst.default.CAMERA),
       xPos = _getElementPos2.xPos,
       yPos = _getElementPos2.yPos,
       zPos = _getElementPos2.zPos;
 
   var menu = document.createElement("a-plane");
   menu.setAttribute("id", name);
-  menu.setAttribute("color", "yellow");
-  menu.setAttribute("material", "opacity: 0.0; transparent: true");
+  menu.setAttribute("color", "gray"); // smenu.setAttribute("material", "opacity: 0.0; transparent: false");
+
   menu.setAttribute("height", "5");
   menu.setAttribute("width", "5");
   var spacing_row = -2;
@@ -253,25 +256,53 @@ var createMenu = function createMenu(name) {
   var _loop = function _loop(index) {
     if (index % 3 === 0 && index !== 0) {
       spacing_row = -2;
-      spacing_col -= 1.5;
+      spacing_col -= 2;
     }
 
     var select_item = document.createElement("a-plane");
-    select_item.setAttribute("id", "a-plane-".concat(index.toString()));
+    select_item.setAttribute("id", "object-select-".concat(index.toString()));
     select_item.setAttribute("src", itemList[index].img);
     select_item.setAttribute("height", "1");
     select_item.setAttribute("width", "1");
-    select_item.setAttribute("position", "".concat(spacing_row, " ").concat(spacing_col, " 0.14"));
+    select_item.setAttribute("position", "".concat(spacing_row, " ").concat(spacing_col + 0.3, " 0.14"));
     select_item.addEventListener("click", function () {
       // const createObject = createItemObject(
       // 	`create-object-${index.toString()}`,
       // 	`https://cdn.aframe.io/examples/ar/models/reticle/reticle.gltf`
       // );
-      var createObject = createBox("create-object-".concat(index.toString()), itemList[index].shape);
-      createObject.addEventListener("click", function () {// console.log("I am from menu");
+      var _getElementPos3 = (0, _getElementPosition.default)(_menu.default.id),
+          xPos = _getElementPos3.xPos,
+          yPos = _getElementPos3.yPos,
+          zPos = _getElementPos3.zPos;
+
+      var createObjectData = {
+        name: itemList[index].shape,
+        type: itemList[index].shape,
+        position: "".concat(xPos, " 2 ").concat(zPos + 1),
+        scale: "1 1 1",
+        rotation: "0 0 0",
+        properties: [{
+          name: 'color',
+          value: "cyan"
+        }]
+      };
+      createObjectData.properties.push({
+        name: 'width',
+        value: 1
       });
-      createObject.setAttribute("position", "".concat(xPos, " 2 ").concat(zPos - 2));
-      scene.appendChild(createObject);
+      createObjectData.properties.push({
+        name: 'height',
+        value: 1
+      });
+
+      if (itemList[index].shape === "circle" || itemList[index].shape === "sphere") {
+        createObjectData.properties.push({
+          name: 'radius',
+          value: 1
+        });
+      }
+
+      menu.emit("create_item", createObjectData);
     });
     spacing_row += 2;
     menu.appendChild(select_item);
@@ -295,16 +326,6 @@ var createItemObject = function createItemObject(id, modelLink) {
 }; // option
 
 
-var createBox = function createBox(id, shape) {
-  var createObject = document.createElement(shape);
-  createObject.setAttribute("id", id);
-  createObject.setAttribute("dragndrop", "");
-  createObject.setAttribute("height", "1");
-  createObject.setAttribute("width", "1");
-  createObject.setAttribute("color", "#4CC3D9");
-  return createObject;
-};
-
 var stickPopup = function stickPopup(isMenuOpen) {
   var menuName = _menu.default.id;
 
@@ -318,7 +339,7 @@ var stickPopup = function stickPopup(isMenuOpen) {
     removeMenu.parentNode.removeChild(removeMenu);
   }
 };
-},{"../constant/cameraIdConst.js":"constant/cameraIdConst.js","../constant/menu.js":"constant/menu.js","../Tool/getElementPosition.js":"Tool/getElementPosition.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"../constant/cameraIdConst.js":"constant/cameraIdConst.js","../constant/menu.js":"constant/menu.js","../tools/getElementPosition.js":"tools/getElementPosition.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -346,7 +367,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57500" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51602" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -522,5 +543,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","component/menu.js"], null)
+},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","component/menu.js"], null)
 //# sourceMappingURL=/menu.094279f7.js.map

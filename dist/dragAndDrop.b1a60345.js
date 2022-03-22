@@ -117,68 +117,26 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"action/dragAndDrop.js":[function(require,module,exports) {
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+})({"constant/cameraIdConst.js":[function(require,module,exports) {
+"use strict";
 
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var CAM_VAL = {
+  CAMERA_RIG: "rig",
+  CAMERA: "camera",
+  CURSOR: "cursor"
+};
+var _default = CAM_VAL;
+exports.default = _default;
+},{}],"action/dragAndDrop.js":[function(require,module,exports) {
+"use strict";
 
-// if (window.AFRAME == null) {
-// 	console.log("I am not AFRAME");
-// 	console.error("aframe not found, please import it before this component.");
-// }
-var API_PATH_NAME = "https://reqres.in";
+var _cameraIdConst = _interopRequireDefault(require("../constant/cameraIdConst.js"));
 
-function postData() {
-  return _postData.apply(this, arguments);
-}
-
-function _postData() {
-  _postData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var url,
-        data,
-        response,
-        _args = arguments;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            url = _args.length > 0 && _args[0] !== undefined ? _args[0] : "";
-            data = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
-            _context.next = 4;
-            return fetch("".concat(API_PATH_NAME).concat(url), {
-              method: "POST",
-              // *GET, POST, PUT, DELETE, etc.
-              mode: "cors",
-              // no-cors, *cors, same-origin
-              cache: "no-cache",
-              // *default, no-cache, reload, force-cache, only-if-cached
-              credentials: "same-origin",
-              // include, *same-origin, omit
-              headers: {
-                "Content-Type": "application/json" // 'Content-Type': 'application/x-www-form-urlencoded',
-
-              },
-              redirect: "follow",
-              // manual, *follow, error
-              referrerPolicy: "no-referrer",
-              // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-              body: JSON.stringify(data) // body data type must match "Content-Type" header
-
-            });
-
-          case 4:
-            response = _context.sent;
-            return _context.abrupt("return", response.json());
-
-          case 6:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-  return _postData.apply(this, arguments);
-}
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 AFRAME.registerSystem("track-cursor", {
   init: function init() {
@@ -200,11 +158,8 @@ AFRAME.registerComponent("track-cursor", {
         _this.el.addState("dragging");
       }
     });
-    this.el.addEventListener("click", function (e) {
-      console.log("Stop dragging");
-      console.log(_this.el.object3D.position); // position, rotation, scale, object
-
-      ws.send(JSON.stringify(_this.el.object3D.position));
+    this.el.addEventListener("mouseup", function (e) {
+      console.log(e); // position, rotation, scale, object
 
       if (_this.el.is("dragging")) {
         _this.el.sceneEl.camera.el.setAttribute("look-controls", {
@@ -212,9 +167,9 @@ AFRAME.registerComponent("track-cursor", {
         });
 
         _this.el.removeState("dragging");
-      } else {
-        console.log("Not dragging");
       }
+
+      _this.el.emit("update_item", _this.el);
     });
   }
 });
@@ -225,6 +180,7 @@ AFRAME.registerComponent("dragndrop", {
 
     this.range = 0;
     this.dist = 0;
+    this.acc = 0.0;
     this.el.addEventListener("stateadded", function (e) {
       if (e.detail == "dragging") {
         _this2.range = 0;
@@ -246,36 +202,25 @@ AFRAME.registerComponent("dragndrop", {
   },
   updateTarget: function updateTarget() {
     var camera = this.el.sceneEl.camera.el;
-    this.target.copy(camera.object3D.position.clone().add(this.direction.clone().multiplyScalar(this.dist + this.range)));
+    var height = new THREE.Vector3(0, 1.6, 0);
+    this.target.copy(camera.object3D.position.clone().add(height).add(this.direction.clone().multiplyScalar(this.dist + this.range)));
   },
-  tick: function tick() {
+  tick: function tick(time, timeDelta) {
     if (this.el.is("dragging")) {
+      this.acc += timeDelta;
+
+      if (this.acc > 200) {
+        this.el.emit("update_item", this.el);
+        this.acc = 0.0;
+      }
+
       this.updateDirection();
       this.updateTarget();
       this.el.object3D.position.copy(this.target);
     }
   }
 });
-AFRAME.registerComponent("change-color-on-hover", {
-  schema: {
-    color: {
-      default: "red"
-    }
-  },
-  init: function init() {
-    var data = this.data;
-    var el = this.el; // <a-box>
-
-    var defaultColor = el.getAttribute("material").color;
-    el.addEventListener("mouseenter", function () {
-      el.setAttribute("color", data.color);
-    });
-    el.addEventListener("mouseleave", function () {
-      el.setAttribute("color", defaultColor);
-    });
-  }
-});
-},{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"../constant/cameraIdConst.js":"constant/cameraIdConst.js"}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -303,7 +248,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57500" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51602" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -479,5 +424,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","action/dragAndDrop.js"], null)
+},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","action/dragAndDrop.js"], null)
 //# sourceMappingURL=/dragAndDrop.b1a60345.js.map

@@ -120,23 +120,27 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 })({"action/lightBulb.js":[function(require,module,exports) {
 AFRAME.registerComponent("lightbulb", {
   init: function init() {
-    this.isOn = false;
+    this.onoff = false;
     this.count = 0;
-    var el = this.el;
-    el.addEventListener("click", function () {
-      console.log(el.getAttribute("light"));
-
-      if (this.On) {
-        el.setAttribute("light", "type: point; intensity: 1; distance: 100; decay: 0");
-        this.On = false;
+    this.el.setAttribute("light", "type: point; intensity: 0; distance: 100; decay: 0");
+    this.el.addEventListener("click", function () {
+      if (this.onoff) {
+        this.el.setAttribute("light", "type: point; intensity: 0; distance: 100; decay: 0");
+        this.onoff = 0;
       } else {
-        el.setAttribute("light", "type: point; intensity: 0; distance: 100; decay: 0");
-        this.On = true;
+        this.el.setAttribute("light", "type: point; intensity: 1; distance: 100; decay: 0");
+        this.onoff = 1;
       }
-    });
+
+      this.el.emit("set_tag", {
+        name: this.el.id,
+        tag: "onoff",
+        value: this.onoff
+      });
+    }.bind(this));
   }
 });
-},{}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{}],"../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -164,7 +168,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57500" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51602" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -340,5 +344,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","action/lightBulb.js"], null)
+},{}]},{},["../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","action/lightBulb.js"], null)
 //# sourceMappingURL=/lightBulb.0264ca25.js.map

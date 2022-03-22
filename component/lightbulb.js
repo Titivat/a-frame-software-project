@@ -1,11 +1,11 @@
 const lightBulb = document.createElement("a-entity");
-lightBulb.setAttribute("id", "IAmLight");
+lightBulb.setAttribute("id", "Hue1");
 // lightBulb.setAttribute("gltf-model", "#lightbulb");
 lightBulb.setAttribute(
-	"gltf-model",
-	"https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/Lightbulb.gltf"
+    "gltf-model",
+    "https://raw.githubusercontent.com/Titivat/a-frame-software-project/main/Assets/3dObject/Lightbulb.gltf"
 );
-lightBulb.setAttribute("dragndrop", "");
+//lightBulb.setAttribute("dragndrop", "");
 lightBulb.setAttribute("lightbulb", "");
 lightBulb.setAttribute(
 	"light",
