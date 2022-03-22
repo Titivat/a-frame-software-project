@@ -12,6 +12,7 @@ import displayMenuItemWithDelete from "./subComponent/displayMenuItemWithDelete.
 import createEditMenu from "./subComponent/createEditMenu.js";
 import createLabelText from "./subComponent/createLabelText.js";
 import createKeyboard from "./subComponent/keyboard/createKeyboard.js";
+import removeElement from "./subComponent/removeElement.js";
 
 let isMenuOpen = false;
 document.addEventListener("keydown", function (e) {
@@ -125,21 +126,14 @@ const bottomLayout = (worldMenu, pageIndex) => {
 				localStorage.setItem("items", JSON.stringify({ items: items }));
 				const { rowContainer1, rowContainer2 } = getRowContainerElement();
 				displayMenuItem(rowContainer1, rowContainer2, items, pageIndex);
-				const editMenu = document.getElementById(`editMenu`);
-				editMenu.parentNode.removeChild(editMenu);
-				const editMenuKeyboard = document.getElementById(`edit-keyboard`);
-				editMenuKeyboard.parentNode.removeChild(editMenuKeyboard);
+				removeElement(`editMenu`);
+				removeElement(`edit-keyboard`);
 			}
-
-			// items.push({ name: newWorldName });
-			// localStorage.setItem("items", JSON.stringify({ items: items }));
 		});
 
 		const cancelBtn = createButton("cancel", "cancelConfirmBtn", () => {
-			const editMenu = document.getElementById(`editMenu`);
-			editMenu.parentNode.removeChild(editMenu);
-			const editMenuKeyboard = document.getElementById(`edit-keyboard`);
-			editMenuKeyboard.parentNode.removeChild(editMenuKeyboard);
+			removeElement(`editMenu`);
+			removeElement(`edit-keyboard`);
 		});
 
 		createBtnButtonLayout.appendChild(confirmBtn);
