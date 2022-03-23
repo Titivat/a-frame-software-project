@@ -10,9 +10,9 @@ module.exports = merge(common, {
 		path: path.resolve(__dirname, "dist"),
 	},
 	devServer: {
-		compress: true,
-		hot: true,
-		port: process.env.PORT || 3000,
+		compress: false,
+		host: "0.0.0.0",
+		port: 3000,
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
