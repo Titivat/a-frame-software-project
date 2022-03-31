@@ -11,7 +11,6 @@ module.exports = merge(common, {
 	},
 	devServer: {
 		compress: true,
-		hot: true,
 		port: process.env.PORT || 3000,
 	},
 	plugins: [

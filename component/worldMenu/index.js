@@ -138,14 +138,14 @@ const bottomLayout = (worldMenu, pageIndex) => {
 
 		createBtnButtonLayout.appendChild(confirmBtn);
 		createBtnButtonLayout.appendChild(cancelBtn);
-		newCreateMenu.setAttribute("position", `${xPos} ${yPos + 3.5} ${zPos - 4}`);
+		newCreateMenu.setAttribute("position", `${xPos} ${yPos + 3.7} ${zPos - 4}`);
 		newCreateMenu.appendChild(createBtnTopLayout);
 		newCreateMenu.appendChild(createBtnButtonLayout);
 		scene.appendChild(newCreateMenu);
 
 		// to do create keyboard here
 		const keyboard = createKeyboard(label);
-		keyboard.setAttribute("position", `${xPos} ${yPos + 1.2} ${zPos - 3.5}`);
+		keyboard.setAttribute("position", `${xPos} ${yPos + 1.3} ${zPos - 3.5}`);
 		scene.appendChild(keyboard);
 	});
 
