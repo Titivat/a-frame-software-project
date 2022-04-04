@@ -21,6 +21,7 @@
 	},
 	"homepage": "https://github.com/Titivat/a-frame-software-project#readme",
 	"devDependencies": {
+		"@webpack-cli/serve": "^1.6.1",
 		"bootstrap": "^4.3.1",
 		"css-loader": "^2.1.0",
 		"file-loader": "^3.0.1",

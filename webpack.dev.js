@@ -10,8 +10,11 @@ module.exports = merge(common, {
 		path: path.resolve(__dirname, "dist"),
 	},
 	devServer: {
+		host: "0.0.0.0",
 		compress: true,
+		useLocalIp: true,
 		port: process.env.PORT || 3000,
+		https: true,
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
@@ -21,7 +24,7 @@ module.exports = merge(common, {
 	module: {
 		rules: [
 			{
-				test: /\.scss$/,
+				test: /\.css$/,
 				use: [
 					"style-loader", //3. Inject styles into DOM
 					"css-loader", //2. Turns css into commonjs
