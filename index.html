@@ -15,6 +15,7 @@
 
 		<script type="module" src="./action/dragAndDrop.js"></script>
 		<script type="module" src="./action/lightBulb.js"></script>
+		<!-- <script type="module" src="./action/handController/index.js"></script> -->
 		<script type="module" src="./system/cyber-ws.js"></script>
 	</head>
 
@@ -22,18 +23,21 @@
 		<a-scene cyber-ws>
 			<!-- CAMERA -->
 			<a-entity id="rig" position="0 1.7 0">
-				<a-entity id="camera" camera wasd-controls look-controls>
+				<!-- down below replace in camera if drag and drop broke -->
+				<!-- <a-entity id="camera" camera wasd-controls look-controls> -->
+				<a-entity id="camera" wasd-controls>
 					<!-- <a-entity cursor="rayOrigin:mouse" /> -->
-					<a-entity
-						laser-controls="hand: left"
-						oculus-touch-controls="hand: left"
-					></a-entity>
-					<a-entity
-						laser-controls="hand: right"
-						oculus-touch-controls="hand: right"
-					></a-entity>
 				</a-entity>
 			</a-entity>
+			<a-entity
+				laser-controls="hand: left"
+				oculus-touch-controls="hand: left"
+			></a-entity>
+			<a-entity
+				laser-controls="hand: right"
+				oculus-touch-controls="hand: right"
+			></a-entity>
+
 			<!-- MAKE SCENE ELEMENT GLOBAL -->
 			<script>
 				const scene = document.querySelector("a-scene");
@@ -65,7 +69,6 @@
 				id="environment"
 				src="./component/environment.js"
 			></script>
-
 			<!-- CONNECT TO SERVER AFTER SCENE IS LOADED -->
 			<!-- <script type="module" src="./component/menu.js"></script> -->
 			<!-- <script type="module" src="./component/worldMenu/index.js"></script> -->
