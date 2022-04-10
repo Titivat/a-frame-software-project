@@ -15,7 +15,7 @@
 
 		<script type="module" src="./action/dragAndDrop.js"></script>
 		<script type="module" src="./action/lightBulb.js"></script>
-		<!-- <script type="module" src="./action/handController/index.js"></script> -->
+		<script src="./action/handController/index.js"></script>
 		<script type="module" src="./system/cyber-ws.js"></script>
 	</head>
 
@@ -29,7 +29,9 @@
 					<!-- <a-entity cursor="rayOrigin:mouse" /> -->
 				</a-entity>
 			</a-entity>
+
 			<a-entity
+				create-world-menu
 				laser-controls="hand: left"
 				oculus-touch-controls="hand: left"
 			></a-entity>
